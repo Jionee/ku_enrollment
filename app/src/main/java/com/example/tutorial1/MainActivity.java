@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         mTabLayout.addTab(mTabLayout.newTab().setCustomView(createTabView("전공")));
         mTabLayout.addTab(mTabLayout.newTab().setCustomView(createTabView("심교")));
         mTabLayout.addTab(mTabLayout.newTab().setCustomView(createTabView("기교")));
+        mTabLayout.getTabAt(0).setIcon(R.drawable.basket);
 
         //슬라이드 viewPager 설정
         mViewPager = (ViewPager) findViewById(R.id.pager_content);

@@ -14,7 +14,7 @@ import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     private ArrayList<classData> classDataset;
-    private String[] mDataset;
+    private String gradeNumber;
 
     //각 text,image등을 연결
     public static class MyViewHolder extends RecyclerView.ViewHolder {
@@ -37,8 +37,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         }
     }
 
-    public MyAdapter(ArrayList<classData> classDataset) {
+    public MyAdapter(ArrayList<classData> classDataset,String gradeNumber) {
         this.classDataset = classDataset;
+        this.gradeNumber = gradeNumber;
     }
 
     // 각 줄 open
@@ -56,12 +57,34 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         holder.textView_name.setText(classDataset.get(position).getName().substring(0, classDataset.get(position).getName().indexOf("(")));
         holder.textView_professor.setText(classDataset.get(position).getProfessor());
         holder.textView_time.setText(classDataset.get(position).getTime());
-        //String
-        int empt = Integer.parseInt(classDataset.get(position).getEmpty());
-        int curr = Integer.parseInt(classDataset.get(position).getCurrent());
 
+        int empt=0; int curr=0;
+        switch(gradeNumber){
+            case "0": //전체
+                empt = Integer.parseInt(classDataset.get(position).getEmpty());
+                curr = Integer.parseInt(classDataset.get(position).getCurrent());
+                break;
+            case "1": //1학년
+                empt = Integer.parseInt(classDataset.get(position).getGradeEmpty().get(0));
+                curr = Integer.parseInt(classDataset.get(position).getGradeCurrent().get(0));
+                break;
+            case "2": //2학년
+                empt = Integer.parseInt(classDataset.get(position).getGradeEmpty().get(1));
+                curr = Integer.parseInt(classDataset.get(position).getGradeCurrent().get(1));
+                break;
+            case "3": //3학년
+                empt = Integer.parseInt(classDataset.get(position).getGradeEmpty().get(2));
+                curr = Integer.parseInt(classDataset.get(position).getGradeCurrent().get(2));
+                break;
+            case "4": //4학년
+                empt = Integer.parseInt(classDataset.get(position).getGradeEmpty().get(3));
+                curr = Integer.parseInt(classDataset.get(position).getGradeCurrent().get(3));
+                break;
+            default: return;
+        }
         holder.textView_empty.setText(Integer.toString(curr-empt));
-        holder.textView_current.setText(classDataset.get(position).getEmpty()+"/"+classDataset.get(position).getCurrent());
+        holder.textView_current.setText(Integer.toString(empt)+"/"+Integer.toString(curr));
+
 
 
     }
