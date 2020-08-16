@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
@@ -43,6 +44,7 @@ public class Fragment_1 extends Fragment {
     private int gradeNumber=0;
     private boolean isEmpty=false;
     private SwitchButton switchButton;
+    private Spinner spinner;
 
     //어댑터에 주기적으로 교체
     public static Fragment_1 newInstance(){
@@ -68,7 +70,7 @@ public class Fragment_1 extends Fragment {
        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener(){
            @Override //하단 탭 리스너 설정
            public void onTabSelected(TabLayout.Tab tab) {
-               // TODO : tab의 상태가 선택 상태로 변경.
+               // tab의 상태가 선택 상태로 변경.
                gradeNumber = tab.getPosition() ;
                //어댑터 달기
                mAdapter = new MyAdapter(classDataset,Integer.toString(gradeNumber),isEmpty);
@@ -77,10 +79,10 @@ public class Fragment_1 extends Fragment {
 
            }
            public void onTabUnselected(TabLayout.Tab tab) {
-               // TODO : tab의 상태가 선택 상태로 변경.
+               // tab의 상태가 선택 상태로 변경.
            }
            public void onTabReselected(TabLayout.Tab tab) {
-               // TODO : 이미 선택된 tab이 다시
+               // 이미 선택된 tab이 다시
            }
        });
 
@@ -147,17 +149,22 @@ public class Fragment_1 extends Fragment {
                     }
                 }
 
-                else{
+                else{ //전체 강의
                     isEmpty=false;
                     optionState.setText("전체 강의");
                     //어댑터 달기
                     mAdapter = new MyAdapter(classDataset,Integer.toString(gradeNumber),isEmpty);
-                        System.out.println("전체강의수"+classDataset.size());
+                    //System.out.println("전체강의수"+classDataset.size());
                 }
 
                 recyclerView.setAdapter(mAdapter);
             }
         });
+
+        //스피너
+        spinner = (Spinner) view.findViewById(R.id.spinner_major);
+        //TODO
+
 
         return view;
     }
