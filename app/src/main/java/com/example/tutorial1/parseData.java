@@ -22,7 +22,7 @@ public class parseData extends AsyncTask <String,Void, ArrayList<classData>>{
 
 
         Elements document = null;
-        try {
+        try { //strings[0] : 전달받은주소
             document = Jsoup.connect(strings[0]).get().select(".table_bg_white");
         } catch (IOException e) {
             e.printStackTrace();

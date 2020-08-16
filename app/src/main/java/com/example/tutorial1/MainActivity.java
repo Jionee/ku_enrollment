@@ -1,65 +1,63 @@
 package com.example.tutorial1;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
+import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
+import com.google.android.material.tabs.TabLayout;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
-    //test3
-    //2020년 2학기 전선 컴퓨터공학과
-    //https://kupis.konkuk.ac.kr/sugang/acd/cour/time/SeoulTimetableInfo.jsp?ltYy=2020&ltShtm=B01012&pobtDiv=B04045&openSust=127114
-
-    String url = "https://kupis.konkuk.ac.kr/sugang/acd/cour/time/SeoulTimetableInfo.jsp?ltYy=2020&ltShtm=B01012&pobtDiv=B04045&openSust=126907";
-
-    //1학기 B01011 2학기 B01012 하계계절학기 B01014 동계계절학기 B01015
-    String base = "https://kupis.konkuk.ac.kr/sugang/acd/cour/time/SeoulTimetableInfo.jsp?ltYy=2020&ltShtm=B01012";
-    String pobtDiv = "&pobtDiv="; // B04044:전필, B04045:지필, B04043:지교, B0404P:기교, B04054:심교, B04047:교직, B04046:일선, B04054:심교, ALL:전체
-    String cultCorsFld = "&cultCorsFld="; //기교선택
-    String openSust = "&openSust="; //학과
 
     //****
     private ArrayList<classData> classDataset; //수업정보
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
+    private TabLayout mTabLayout; //상단바
+    private Context mContext;
+
+    private ViewPager mViewPager;
+    private FragmentPagerAdapter fragmentPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
-        recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
+        mContext=getApplicationContext();
 
-        try {
-            getData();
-        } catch (IOException | ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-        }
+        //탭 설정
+        mTabLayout=(TabLayout) findViewById(R.id.layout_tab);
+        mTabLayout.addTab(mTabLayout.newTab().setCustomView(createTabView("전공")));
+        mTabLayout.addTab(mTabLayout.newTab().setCustomView(createTabView("심교")));
+        mTabLayout.addTab(mTabLayout.newTab().setCustomView(createTabView("기교")));
+
+        //슬라이드 viewPager 설정
+        mViewPager = (ViewPager) findViewById(R.id.pager_content);
+        fragmentPagerAdapter = new MyViewPagerAdapter(getSupportFragmentManager(),mTabLayout.getTabCount());
+        mViewPager.setAdapter(fragmentPagerAdapter);
+
+        //탭, viewPager 연결
+        mTabLayout.setupWithViewPager(mViewPager);
     }
 
-    public void getData() throws IOException, ExecutionException, InterruptedException {
-
-        classDataset = new parseData().execute(url,"body").get();
-
-        // specify an adapter (see also next example)
-        mAdapter = new MyAdapter(classDataset);
-        recyclerView.setAdapter(mAdapter);
+    //탭 커스터마이징
+    private View createTabView(String tabName){
+        View tabView = LayoutInflater.from(mContext).inflate(R.layout.custom_tab,null);
+        TextView txt_name = (TextView) tabView.findViewById(R.id.txt_name);
+        txt_name.setText(tabName);
+        return tabView;
     }
+
 }
