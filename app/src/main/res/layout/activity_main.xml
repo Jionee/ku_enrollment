@@ -20,8 +20,8 @@
         app:tabGravity="center"
         app:tabMode="fixed"
         app:tabTextColor="#000000"
-        app:tabSelectedTextColor="@color/colorPrimary"
-        app:tabIndicatorColor="@color/colorPrimary"/>
+        app:tabSelectedTextColor="#17880e"
+        app:tabIndicatorColor="#58b33c"/>
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/pager_content"

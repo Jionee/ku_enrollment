@@ -17,16 +17,53 @@
         android:layout_height="0dp"
         android:layout_weight="9"/>
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/layout_tab"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        app:tabGravity="center"
-        app:tabMode="fixed"
-        app:tabTextColor="#000000"
-        app:tabSelectedTextColor="@color/colorPrimary"
-        app:tabIndicatorColor="@color/colorPrimary"/>
+        android:orientation="horizontal">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/layout_tab"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:tabGravity="center"
+            app:tabMode="fixed"
+            app:tabTextColor="#000000"
+            app:tabSelectedTextColor="#17880e"
+            app:tabIndicatorColor="#58b33c"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.3"
+            android:orientation="vertical">
+
+            <com.kyleduo.switchbutton.SwitchButton
+                android:id="@+id/sb_use_listener"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textView_switch"
+                android:gravity="center"
+
+                />
+
+            <TextView
+                android:id="@+id/textView_switch"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="전체 강의"
+                android:layout_marginBottom="5dp"/>
+
+        </LinearLayout>
+    </LinearLayout>
 
     <!--<LinearLayout
         android:layout_width="match_parent"

@@ -15,6 +15,7 @@ import java.util.List;
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     private ArrayList<classData> classDataset;
     private String gradeNumber;
+    private boolean isEmpty;
 
     //각 text,image등을 연결
     public static class MyViewHolder extends RecyclerView.ViewHolder {
@@ -37,9 +38,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         }
     }
 
-    public MyAdapter(ArrayList<classData> classDataset,String gradeNumber) {
+    public MyAdapter(ArrayList<classData> classDataset,String gradeNumber,boolean isEmpty) {
         this.classDataset = classDataset;
         this.gradeNumber = gradeNumber;
+        this.isEmpty = isEmpty;
     }
 
     // 각 줄 open
@@ -84,9 +86,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         }
         holder.textView_empty.setText(Integer.toString(curr-empt));
         holder.textView_current.setText(Integer.toString(empt)+"/"+Integer.toString(curr));
-
-
-
     }
 
     @Override

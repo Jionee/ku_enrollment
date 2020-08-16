@@ -11,8 +11,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
+import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
+import com.kyleduo.switchbutton.SwitchButton;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,6 +40,7 @@ public class Fragment_1 extends Fragment {
 
     private TabLayout mTabLayout; //전체,1,2,3,4
     private int gradeNumber=0;
+    private boolean isEmpty=false;
 
     //어댑터에 주기적으로 교체
     public static Fragment_1 newInstance(){
@@ -54,19 +58,19 @@ public class Fragment_1 extends Fragment {
 
         mTabLayout=(TabLayout) view.findViewById(R.id.layout_tab);
         mTabLayout.addTab(mTabLayout.newTab().setText("전체"));
-        mTabLayout.addTab(mTabLayout.newTab().setText("1"));
-        mTabLayout.addTab(mTabLayout.newTab().setText("2"));
-        mTabLayout.addTab(mTabLayout.newTab().setText("3"));
-        mTabLayout.addTab(mTabLayout.newTab().setText("4"));
+        mTabLayout.addTab(mTabLayout.newTab().setText("1학년"));
+        mTabLayout.addTab(mTabLayout.newTab().setText("2학년"));
+        mTabLayout.addTab(mTabLayout.newTab().setText("3학년"));
+        mTabLayout.addTab(mTabLayout.newTab().setText("4학년"));
 
        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener(){
-           @Override
+           @Override //하단 탭 리스너 설정
            public void onTabSelected(TabLayout.Tab tab) {
                // TODO : tab의 상태가 선택 상태로 변경.
                gradeNumber = tab.getPosition() ;
-                   //어댑터 달기
-                   mAdapter = new MyAdapter(classDataset,Integer.toString(gradeNumber));
-                   recyclerView.setAdapter(mAdapter);
+               //어댑터 달기
+               mAdapter = new MyAdapter(classDataset,Integer.toString(gradeNumber),isEmpty);
+               recyclerView.setAdapter(mAdapter);
            }
            public void onTabUnselected(TabLayout.Tab tab) {
                // TODO : tab의 상태가 선택 상태로 변경.
@@ -87,6 +91,30 @@ public class Fragment_1 extends Fragment {
         } catch (ExecutionException | InterruptedException | IOException e) { e.printStackTrace();
         }
 
+        //스위치 설정
+        final TextView optionState = (TextView)view.findViewById(R.id.textView_switch);
+
+
+        // 스위치 버튼입니다.
+        SwitchButton switchButton = (SwitchButton) view.findViewById(R.id.sb_use_listener);
+        switchButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // 스위치 버튼이 체크되었는지 검사하여 텍스트뷰에 각 경우에 맞게 출력합니다.
+                if (isChecked){
+                    optionState.setText("남은 강의만");
+                    isEmpty=true;
+                }else{
+                    isEmpty=false;
+                    optionState.setText("전체 강의");
+                }
+                //어댑터 달기
+                mAdapter = new MyAdapter(classDataset,Integer.toString(gradeNumber),isEmpty);
+                recyclerView.setAdapter(mAdapter);
+            }
+        });
+
         return view;
     }
 
@@ -94,7 +122,7 @@ public class Fragment_1 extends Fragment {
         //데이터 넣기
         classDataset = new parseData().execute(url,Integer.toString(gradeNumber)).get();
         //어댑터 달기
-        mAdapter = new MyAdapter(classDataset,Integer.toString(gradeNumber));
+        mAdapter = new MyAdapter(classDataset,Integer.toString(gradeNumber),isEmpty);
         recyclerView.setAdapter(mAdapter);
     }
 
