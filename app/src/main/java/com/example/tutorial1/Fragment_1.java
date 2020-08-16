@@ -19,6 +19,7 @@ import com.kyleduo.switchbutton.SwitchButton;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.concurrent.ExecutionException;
 
 
@@ -41,6 +42,7 @@ public class Fragment_1 extends Fragment {
     private TabLayout mTabLayout; //전체,1,2,3,4
     private int gradeNumber=0;
     private boolean isEmpty=false;
+    private SwitchButton switchButton;
 
     //어댑터에 주기적으로 교체
     public static Fragment_1 newInstance(){
@@ -71,6 +73,8 @@ public class Fragment_1 extends Fragment {
                //어댑터 달기
                mAdapter = new MyAdapter(classDataset,Integer.toString(gradeNumber),isEmpty);
                recyclerView.setAdapter(mAdapter);
+               switchButton.setChecked(false);
+
            }
            public void onTabUnselected(TabLayout.Tab tab) {
                // TODO : tab의 상태가 선택 상태로 변경.
@@ -94,23 +98,63 @@ public class Fragment_1 extends Fragment {
         //스위치 설정
         final TextView optionState = (TextView)view.findViewById(R.id.textView_switch);
 
-
         // 스위치 버튼입니다.
-        SwitchButton switchButton = (SwitchButton) view.findViewById(R.id.sb_use_listener);
+        switchButton = (SwitchButton) view.findViewById(R.id.sb_use_listener);
         switchButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // 스위치 버튼이 체크되었는지 검사하여 텍스트뷰에 각 경우에 맞게 출력합니다.
                 if (isChecked){
-                    optionState.setText("남은 강의만");
                     isEmpty=true;
-                }else{
+                    optionState.setText("남은 강의만");
+                    ArrayList<classData> cloneDataset = new ArrayList<classData>();
+                    cloneDataset.addAll(classDataset);
+                    Iterator<classData> iterator = cloneDataset.iterator();
+                    while(iterator.hasNext()){
+                        classData tmp = iterator.next();
+                        switch (gradeNumber){
+                            case 0:
+                                if((Integer.parseInt(tmp.getCurrent())-Integer.parseInt(tmp.getEmpty()))<1) { //인원이 0명이면
+                                    iterator.remove();
+                                }
+                                break;
+                            case 1://1학년
+                                if((Integer.parseInt(tmp.getGradeCurrent().get(0))-Integer.parseInt(tmp.getGradeEmpty().get(0)))<1) { //인원이 0명이면
+                                    iterator.remove();
+                                }
+                                break;
+                            case 2://2학년
+                                if((Integer.parseInt(tmp.getGradeCurrent().get(1))-Integer.parseInt(tmp.getGradeEmpty().get(1)))<1) { //인원이 0명이면
+                                    iterator.remove();
+                                }
+                                break;
+                            case 3://3학년
+                                if((Integer.parseInt(tmp.getGradeCurrent().get(2))-Integer.parseInt(tmp.getGradeEmpty().get(2)))<1) { //인원이 0명이면
+                                    iterator.remove();
+                                }
+                                break;
+                            case 4://4학년
+                                if((Integer.parseInt(tmp.getGradeCurrent().get(3))-Integer.parseInt(tmp.getGradeEmpty().get(3)))<1) { //인원이 0명이면
+                                    iterator.remove();
+                                }
+                                break;
+                            default: return;
+                        }
+
+                    //어댑터 달기
+                    mAdapter = new MyAdapter(cloneDataset,Integer.toString(gradeNumber),isEmpty);
+                    }
+                }
+
+                else{
                     isEmpty=false;
                     optionState.setText("전체 강의");
+                    //어댑터 달기
+                    mAdapter = new MyAdapter(classDataset,Integer.toString(gradeNumber),isEmpty);
+                        System.out.println("전체강의수"+classDataset.size());
                 }
-                //어댑터 달기
-                mAdapter = new MyAdapter(classDataset,Integer.toString(gradeNumber),isEmpty);
+
                 recyclerView.setAdapter(mAdapter);
             }
         });
