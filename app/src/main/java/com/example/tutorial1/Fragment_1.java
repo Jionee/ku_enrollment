@@ -1,6 +1,7 @@
 package com.example.tutorial1;
 
 import android.content.Context;
+import android.icu.text.SymbolTable;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -11,6 +12,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -25,11 +28,11 @@ import java.util.concurrent.ExecutionException;
 
 
 public class Fragment_1 extends Fragment {
-    String url = "https://kupis.konkuk.ac.kr/sugang/acd/cour/time/SeoulTimetableInfo.jsp?ltYy=2020&ltShtm=B01012&pobtDiv=B04045&openSust=127114";
+    String url = "https://kupis.konkuk.ac.kr/sugang/acd/cour/time/SeoulTimetableInfo.jsp?ltYy=2020&ltShtm=B01012&pobtDiv=ALL&openSust=006751";
 
     //1학기 B01011 2학기 B01012 하계계절학기 B01014 동계계절학기 B01015
     String base = "https://kupis.konkuk.ac.kr/sugang/acd/cour/time/SeoulTimetableInfo.jsp?ltYy=2020&ltShtm=B01012";
-    String pobtDiv = "&pobtDiv="; // B04044:전필, B04045:지필, B04043:지교, B0404P:기교, B04054:심교, B04047:교직, B04046:일선, B04054:심교, ALL:전체
+    String pobtDiv = "&pobtDiv="; // B04044:전필, B04045:전선, B04061:지필, B0404P:기교, B04054:심교, B04047:교직, B04046:일선, B04054:심교, ALL:전체
     String cultCorsFld = "&cultCorsFld="; //기교선택
     String openSust = "&openSust="; //학과
 
@@ -45,6 +48,8 @@ public class Fragment_1 extends Fragment {
     private boolean isEmpty=false;
     private SwitchButton switchButton;
     private Spinner spinner;
+    private ArrayList<String> majorName = new ArrayList<String>();
+    private ArrayList<String> majorNumber = new ArrayList<String>();
 
     //어댑터에 주기적으로 교체
     public static Fragment_1 newInstance(){
@@ -93,7 +98,7 @@ public class Fragment_1 extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
 
         try {
-            getData();
+            getData(url);
         } catch (ExecutionException | InterruptedException | IOException e) { e.printStackTrace();
         }
 
@@ -161,20 +166,54 @@ public class Fragment_1 extends Fragment {
             }
         });
 
+        try {
+            parseMajor();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
         //스피너
         spinner = (Spinner) view.findViewById(R.id.spinner_major);
-        //TODO
+        final TextView t = view.findViewById(R.id.testView_major);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(view.getContext(),android.R.layout.simple_spinner_item,majorName);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //t.setText(majorName.get(position));
+                //classDataset 초기화 classDataset = 학과 번호,all  넘겨줘서 그거로 받아오기
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
 
         return view;
     }
 
-    public void getData() throws IOException, ExecutionException, InterruptedException {
+    public void getData(String tmpUrl) throws IOException, ExecutionException, InterruptedException {
+        url=tmpUrl;
         //데이터 넣기
         classDataset = new parseData().execute(url,Integer.toString(gradeNumber)).get();
         //어댑터 달기
         mAdapter = new MyAdapter(classDataset,Integer.toString(gradeNumber),isEmpty);
         recyclerView.setAdapter(mAdapter);
+    }
+
+    public void parseMajor() throws ExecutionException, InterruptedException {
+        ArrayList<ArrayList<String>> tmp;
+        tmp = new parseList().execute().get();
+        majorName.addAll(tmp.get(0));//학과 이름
+        majorNumber.addAll(tmp.get(1));//학과 번호
     }
 
 }
