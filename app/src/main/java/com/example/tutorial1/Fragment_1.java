@@ -28,13 +28,14 @@ import java.util.concurrent.ExecutionException;
 
 
 public class Fragment_1 extends Fragment {
-    String url = "https://kupis.konkuk.ac.kr/sugang/acd/cour/time/SeoulTimetableInfo.jsp?ltYy=2020&ltShtm=B01012&pobtDiv=ALL&openSust=006751";
+    String url = "https://kupis.konkuk.ac.kr/sugang/acd/cour/time/SeoulTimetableInfo.jsp?ltYy=2020&ltShtm=B01012&pobtDiv=ALL&openSust=127114";
 
     //1학기 B01011 2학기 B01012 하계계절학기 B01014 동계계절학기 B01015
     String base = "https://kupis.konkuk.ac.kr/sugang/acd/cour/time/SeoulTimetableInfo.jsp?ltYy=2020&ltShtm=B01012";
     String pobtDiv = "&pobtDiv="; // B04044:전필, B04045:전선, B04061:지필, B0404P:기교, B04054:심교, B04047:교직, B04046:일선, B04054:심교, ALL:전체
     String cultCorsFld = "&cultCorsFld="; //기교선택
     String openSust = "&openSust="; //학과
+
 
     private View view;
     private ArrayList<classData> classDataset; //수업정보
@@ -47,6 +48,7 @@ public class Fragment_1 extends Fragment {
     private int gradeNumber=0;
     private boolean isEmpty=false;
     private SwitchButton switchButton;
+
     private Spinner spinner;
     private ArrayList<String> majorName = new ArrayList<String>();
     private ArrayList<String> majorNumber = new ArrayList<String>();
@@ -64,7 +66,19 @@ public class Fragment_1 extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //fragment_1.xml이랑 연동
         view = inflater.inflate(R.layout.fragment_1, container, false);
+        //recyclerView 설정
+        recyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(view.getContext());
+        recyclerView.setLayoutManager(layoutManager);
 
+        //최초 정보 받아오기
+        try {
+            getData(url);
+        } catch (ExecutionException | InterruptedException | IOException e) { e.printStackTrace();
+        }
+
+        //학년 별 탭 설정
         mTabLayout=(TabLayout) view.findViewById(R.id.layout_tab);
         mTabLayout.addTab(mTabLayout.newTab().setText("전체"));
         mTabLayout.addTab(mTabLayout.newTab().setText("1학년"));
@@ -91,18 +105,7 @@ public class Fragment_1 extends Fragment {
            }
        });
 
-        //recyclerView 설정
-        recyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
-        recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(view.getContext());
-        recyclerView.setLayoutManager(layoutManager);
-
-        try {
-            getData(url);
-        } catch (ExecutionException | InterruptedException | IOException e) { e.printStackTrace();
-        }
-
-        //스위치 설정
+        //남는 강의 스위치 설정
         final TextView optionState = (TextView)view.findViewById(R.id.textView_switch);
 
         // 스위치 버튼입니다.
@@ -148,8 +151,7 @@ public class Fragment_1 extends Fragment {
                                 break;
                             default: return;
                         }
-
-                    //어댑터 달기
+                        //어댑터 달기
                     mAdapter = new MyAdapter(cloneDataset,Integer.toString(gradeNumber),isEmpty);
                     }
                 }
@@ -159,21 +161,11 @@ public class Fragment_1 extends Fragment {
                     optionState.setText("전체 강의");
                     //어댑터 달기
                     mAdapter = new MyAdapter(classDataset,Integer.toString(gradeNumber),isEmpty);
-                    //System.out.println("전체강의수"+classDataset.size());
                 }
 
                 recyclerView.setAdapter(mAdapter);
             }
         });
-
-        try {
-            parseMajor();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
 
         //스피너
         spinner = (Spinner) view.findViewById(R.id.spinner_major);
@@ -181,13 +173,18 @@ public class Fragment_1 extends Fragment {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(view.getContext(),android.R.layout.simple_spinner_item,majorName);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+        spinner.setSelected(false); //스피너 초기 선택X 위해
+        spinner.setSelection(0,true);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
-
+            int i=0;
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //t.setText(majorName.get(position));
-                //classDataset 초기화 classDataset = 학과 번호,all  넘겨줘서 그거로 받아오기
+                String majorNum = majorNumber.get(position);
+                String url2 = base+pobtDiv+"ALL"+openSust+majorNum;
+                System.out.println(i++);
+                try { getMajorData(url2); } catch (ExecutionException | InterruptedException e) { e.printStackTrace();}
             }
 
             @Override
@@ -195,7 +192,6 @@ public class Fragment_1 extends Fragment {
 
             }
         });
-
 
         return view;
     }
@@ -207,8 +203,18 @@ public class Fragment_1 extends Fragment {
         //어댑터 달기
         mAdapter = new MyAdapter(classDataset,Integer.toString(gradeNumber),isEmpty);
         recyclerView.setAdapter(mAdapter);
+        //학과 이름 정보 받아오기
+        try { parseMajor(); } catch (ExecutionException | InterruptedException e) { e.printStackTrace(); }
     }
 
+    public void getMajorData(String tmpUrl) throws ExecutionException, InterruptedException {
+        url=tmpUrl;
+        classDataset = new parseData().execute(url,Integer.toString(gradeNumber)).get();
+        //System.out.println(classDataset.get(0).getName());
+        //어댑터 달기
+        mAdapter = new MyAdapter(classDataset,Integer.toString(gradeNumber),isEmpty);
+        recyclerView.setAdapter(mAdapter);
+    }
     public void parseMajor() throws ExecutionException, InterruptedException {
         ArrayList<ArrayList<String>> tmp;
         tmp = new parseList().execute().get();
