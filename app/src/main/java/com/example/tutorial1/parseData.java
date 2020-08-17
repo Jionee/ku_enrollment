@@ -92,10 +92,11 @@ public class parseData extends AsyncTask <String,Void, ArrayList<classData>>{
             Log.d("현재",a);
             Log.d("전체",b);*/
 
-            //3 : 과목번호, 4 : 과목이름, 8 : 시간, 9 : 교수님 || 현재 신청 인원, 전체인원
+            //3 : 과목번호, 4 : 과목이름, 8 : 시간, 9 : 교수님 || 현재 신청 인원, 전체인원 || 14 : 심교영역
             classes = new classData(element.select("td").eq(3).text(),element.select("td").eq(4).text(),
                     element.select("td").eq(9).text(),element.select("td").eq(8).text(),
-                    element2.select("td").eq(3).text(),element2.select("td").eq(5).text(),basket,gradeEmpty,gradeCurrent);
+                    element2.select("td").eq(3).text(),element2.select("td").eq(5).text(),basket,gradeEmpty,gradeCurrent
+                    ,element.select("td").eq(14).text());
 
             classDataset.add(classes);
             //tmp[i] = element.select("td").eq(3).text();

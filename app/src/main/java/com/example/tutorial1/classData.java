@@ -12,12 +12,14 @@ public class classData {
     private ArrayList<String> basket;//학년별 수강바구니
     private ArrayList<String> gradeEmpty;//학년별 수강인원
     private ArrayList<String> gradeCurrent;//학년별 전체인원
+    private String field; //심교 영역
+
 
     //생성자
     public classData() {
     }
     public classData(String numbers, String name, String professor, String time,String empty, String current,
-                     ArrayList<String> basket,ArrayList<String> gradeEmpty, ArrayList<String> gradeCurrent) {
+                     ArrayList<String> basket,ArrayList<String> gradeEmpty, ArrayList<String> gradeCurrent, String field) {
         this.numbers=numbers;
         this.name=name;
         this.professor=professor;
@@ -27,6 +29,7 @@ public class classData {
         this.basket = basket;
         this.gradeEmpty = gradeEmpty;
         this.gradeCurrent = gradeCurrent;
+        this.field = field;
     }
 
     //getter && setter
@@ -102,6 +105,13 @@ public class classData {
         this.time = time;
     }
 
+    public String getField() {
+        return field;
+    }
+
+    public void setField(String field) {
+        this.field = field;
+    }
 
 
 
