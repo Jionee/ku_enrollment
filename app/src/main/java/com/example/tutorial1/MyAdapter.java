@@ -1,5 +1,8 @@
 package com.example.tutorial1;
 
+import android.graphics.Color;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,31 +64,26 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         holder.textView_time.setText(classDataset.get(position).getTime());
 
         int empt=0; int curr=0;
-        switch(gradeNumber){
-            case "0": //전체
-                empt = Integer.parseInt(classDataset.get(position).getEmpty());
-                curr = Integer.parseInt(classDataset.get(position).getCurrent());
-                break;
-            case "1": //1학년
-                empt = Integer.parseInt(classDataset.get(position).getGradeEmpty().get(0));
-                curr = Integer.parseInt(classDataset.get(position).getGradeCurrent().get(0));
-                break;
-            case "2": //2학년
-                empt = Integer.parseInt(classDataset.get(position).getGradeEmpty().get(1));
-                curr = Integer.parseInt(classDataset.get(position).getGradeCurrent().get(1));
-                break;
-            case "3": //3학년
-                empt = Integer.parseInt(classDataset.get(position).getGradeEmpty().get(2));
-                curr = Integer.parseInt(classDataset.get(position).getGradeCurrent().get(2));
-                break;
-            case "4": //4학년
-                empt = Integer.parseInt(classDataset.get(position).getGradeEmpty().get(3));
-                curr = Integer.parseInt(classDataset.get(position).getGradeCurrent().get(3));
-                break;
-            default: return;
+        if(gradeNumber.equals("0")){
+            empt = Integer.parseInt(classDataset.get(position).getEmpty());
+            curr = Integer.parseInt(classDataset.get(position).getCurrent());
         }
+        else{
+            empt = Integer.parseInt(classDataset.get(position).getGradeEmpty());
+            curr = Integer.parseInt(classDataset.get(position).getGradeCurrent());
+        }
+
         holder.textView_empty.setText(Integer.toString(curr-empt));
         holder.textView_current.setText(Integer.toString(empt)+"/"+Integer.toString(curr));
+
+        SpannableString spannableString = new SpannableString(Integer.toString(curr-empt));
+        if(curr-empt < 1){ //0이하면 빨간색으로
+            spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#d41611")), 0, spannableString.length(), 0);
+        }
+        else{ //남으면 초록색
+            spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#3c701c")), 0, spannableString.length(), 0);
+        }
+        holder.textView_empty.setText(spannableString);
     }
 
     @Override

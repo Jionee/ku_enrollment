@@ -50,10 +50,6 @@ public class parseList extends AsyncTask <String,Void, ArrayList<ArrayList<Strin
             basicCultureName.add(ie3.next().text());
             basicCultureNumber.add(ie4.next().attr("value"));
         }
-        /*majorName.add(majorElements.select("option").iterator().next().text());
-        basicCultureName.add(basicCultureElements.select("option").iterator().next().text());
-        majorNumber.add(majorElements2.select("option").iterator().next().attr("value"));
-        basicCultureNumber.add(basicCultureElements2.select("option").iterator().next().attr("value"));*/
 
         majorName.remove(0);
         majorNumber.remove(0);

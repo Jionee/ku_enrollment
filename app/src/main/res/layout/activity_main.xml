@@ -7,10 +7,16 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <ImageView
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:src="@drawable/basket"
+        android:text="수KU"
+        android:textSize="30dp"
+        android:fontFamily="@font/golmokgil"
+        android:textColor="#eefbe1"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:background="@drawable/main_background"
         tools:ignore="Suspicious0dp" />
 
     <com.google.android.material.tabs.TabLayout

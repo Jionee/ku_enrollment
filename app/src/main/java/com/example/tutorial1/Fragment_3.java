@@ -1,11 +1,13 @@
 package com.example.tutorial1;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 import com.kyleduo.switchbutton.SwitchButton;
@@ -24,7 +27,8 @@ import java.util.Iterator;
 import java.util.concurrent.ExecutionException;
 
 public class Fragment_3 extends Fragment {
-    String url = "https://kupis.konkuk.ac.kr/sugang/acd/cour/time/SeoulTimetableInfo.jsp?ltYy=2020&ltShtm=B01012&openSust=006751&pobtDiv=B0404P";//전체대학 기교 전체
+    //String url = "https://kupis.konkuk.ac.kr/sugang/acd/cour/time/SeoulTimetableInfo.jsp?ltYy=2020&ltShtm=B01012&openSust=006751&pobtDiv=B0404P";//전체대학 기교 전체
+    String url = null;
 
     //1학기 B01011 2학기 B01012 하계계절학기 B01014 동계계절학기 B01015
     String base = "https://kupis.konkuk.ac.kr/sugang/acd/cour/time/SeoulTimetableInfo.jsp?ltYy=2020&ltShtm=B01012";
@@ -47,11 +51,17 @@ public class Fragment_3 extends Fragment {
 
     private Spinner spinner;
     private ArrayList<String> basicName = new ArrayList<String>();
+    private ArrayList<String> basicNumber = new ArrayList<String>();
+
+    private boolean isSearch = false;
+
+    ProgressDialog dialog;
 
     //어댑터에 주기적으로 교체
     public static Fragment_3 newInstance(){
         Fragment_3 fragment_3 = new Fragment_3();
         return fragment_3;
+
     }
 
     public Fragment_3() {
@@ -67,11 +77,47 @@ public class Fragment_3 extends Fragment {
         layoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        //최초 정보 받아오기
-        try {
-            getData(url);
-        } catch (ExecutionException | InterruptedException | IOException e) { e.printStackTrace();
-        }
+        //검색 버튼 설정
+        TextView textview_search = view.findViewById(R.id.textView_search);
+        textview_search.setOnClickListener(new TextView.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                if(!basicNumber.get(0).equals("0")){ //학과 선택이 안됐으면
+                    try { getData(url); } catch (ExecutionException | InterruptedException | IOException e) { e.printStackTrace(); }
+                    isSearch=true;
+                }
+                else{
+                    Toast.makeText(getActivity(), "학과를 선택하세요", Toast.LENGTH_SHORT).show();
+                    System.out.println("정보를 모두 선택하세요");
+                }
+            }
+        });
+
+        //스피너
+        spinner = (Spinner) view.findViewById(R.id.spinner_basic);
+        final TextView t = view.findViewById(R.id.testView_basic);
+        //기교 이름 정보 받아오기
+        try { parseBasic(); } catch (ExecutionException | InterruptedException e) { e.printStackTrace(); }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(view.getContext(),android.R.layout.simple_spinner_item,basicName); //스피너 목록 이름 생성
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setSelected(false); //스피너 초기 선택X 위해
+        spinner.setSelection(0,true);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+            int i=0;
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                basicNumber.set(0,"1");
+                String basicNum = basicNumber.get(position);
+                url = base+pobtDiv+"B0404P"+cultCorsFld+basicNum;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
 
         //학년 별 탭 설정
         mTabLayout=(TabLayout) view.findViewById(R.id.layout_tab);
@@ -86,11 +132,7 @@ public class Fragment_3 extends Fragment {
             public void onTabSelected(TabLayout.Tab tab) {
                 // tab의 상태가 선택 상태로 변경.
                 gradeNumber = tab.getPosition() ;
-                //어댑터 달기
-                mAdapter = new MyAdapter(classDataset,Integer.toString(gradeNumber),isEmpty);
-                recyclerView.setAdapter(mAdapter);
                 switchButton.setChecked(false);
-
             }
             public void onTabUnselected(TabLayout.Tab tab) {
                 // tab의 상태가 선택 상태로 변경.
@@ -110,122 +152,83 @@ public class Fragment_3 extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // 스위치 버튼이 체크되었는지 검사하여 텍스트뷰에 각 경우에 맞게 출력합니다.
-                if (isChecked){
-                    isEmpty=true;
-                    optionState.setText("남은 강의만");
-                    ArrayList<classData> cloneDataset = new ArrayList<classData>();
-                    cloneDataset.addAll(classDataset);
-                    Iterator<classData> iterator = cloneDataset.iterator();
-                    while(iterator.hasNext()){
-                        classData tmp = iterator.next();
-                        switch (gradeNumber){
-                            case 0:
+                if(isSearch){
+                    if (isChecked){
+                        isEmpty=true;
+                        optionState.setText("남은 강의만");
+                        ArrayList<classData> cloneDataset = new ArrayList<classData>();
+                        cloneDataset.addAll(classDataset);
+                        Iterator<classData> iterator = cloneDataset.iterator();
+                        while(iterator.hasNext()){
+                            classData tmp = iterator.next();
+                            if(gradeNumber==0){
                                 if((Integer.parseInt(tmp.getCurrent())-Integer.parseInt(tmp.getEmpty()))<1) { //인원이 0명이면
                                     iterator.remove();
                                 }
-                                break;
-                            case 1://1학년
-                                if((Integer.parseInt(tmp.getGradeCurrent().get(0))-Integer.parseInt(tmp.getGradeEmpty().get(0)))<1) { //인원이 0명이면
+                            }
+                            else {
+                                if ((Integer.parseInt(tmp.getGradeCurrent()) - Integer.parseInt(tmp.getGradeEmpty())) < 1) { //인원이 0명이면
                                     iterator.remove();
                                 }
-                                break;
-                            case 2://2학년
-                                if((Integer.parseInt(tmp.getGradeCurrent().get(1))-Integer.parseInt(tmp.getGradeEmpty().get(1)))<1) { //인원이 0명이면
-                                    iterator.remove();
-                                }
-                                break;
-                            case 3://3학년
-                                if((Integer.parseInt(tmp.getGradeCurrent().get(2))-Integer.parseInt(tmp.getGradeEmpty().get(2)))<1) { //인원이 0명이면
-                                    iterator.remove();
-                                }
-                                break;
-                            case 4://4학년
-                                if((Integer.parseInt(tmp.getGradeCurrent().get(3))-Integer.parseInt(tmp.getGradeEmpty().get(3)))<1) { //인원이 0명이면
-                                    iterator.remove();
-                                }
-                                break;
-                            default: return;
+                            }
+                            //어댑터 달기
+                            mAdapter = new MyAdapter(cloneDataset,Integer.toString(gradeNumber),isEmpty);
                         }
+                    }
+                    else{ //전체 강의
+                        isEmpty=false;
+                        optionState.setText("전체 강의");
                         //어댑터 달기
-                        mAdapter = new MyAdapter(cloneDataset,Integer.toString(gradeNumber),isEmpty);
+                        mAdapter = new MyAdapter(classDataset,Integer.toString(gradeNumber),isEmpty);
                     }
-                }
-                else{ //전체 강의
-                    isEmpty=false;
-                    optionState.setText("전체 강의");
-                    //어댑터 달기
-                    mAdapter = new MyAdapter(classDataset,Integer.toString(gradeNumber),isEmpty);
-                }
-                recyclerView.setAdapter(mAdapter);
-            }
-        });
-
-        //스피너
-        try {
-            basicName.clear();
-            parseBasic();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        spinner = (Spinner) view.findViewById(R.id.spinner_basic);
-        final TextView t = view.findViewById(R.id.testView_basic);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(view.getContext(),android.R.layout.simple_spinner_item,basicName);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        spinner.setSelected(false); //스피너 초기 선택X 위해
-        spinner.setSelection(0,true);
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
-            int i=0;
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                ArrayList<classData> cloneDataset = new ArrayList<classData>();
-
-                Iterator<classData> iterator = allDataset.iterator();
-                while(iterator.hasNext()) {
-                    classData tmp = iterator.next();
-                    if(tmp.getField().equals(((String)parent.getItemAtPosition(position)).substring(4))){//외국어
-                        cloneDataset.add(tmp);
-                    }
-                }
-                if(parent.getItemAtPosition(position).equals("전체")){
-                    classDataset.clear();
-                    classDataset.addAll(allDataset);
+                    recyclerView.setAdapter(mAdapter);
                 }
                 else{
-                    classDataset.clear();
-                    classDataset.addAll(cloneDataset);
+                    System.out.println("스위치 버튼 전에 검색 버튼을 누르십시오");
+                    Toast.makeText(getActivity(), "빈 강의를 확인하려면 먼저 강의를 검색하세요", Toast.LENGTH_SHORT).show();
+                    switchButton.setChecked(false);
                 }
-                mAdapter = new MyAdapter(classDataset,Integer.toString(gradeNumber),isEmpty);
-                recyclerView.setAdapter(mAdapter);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
 
         return view;
     }
     public void getData(String tmpUrl) throws IOException, ExecutionException, InterruptedException {
-        url=tmpUrl;
-        //데이터 넣기
-        classDataset = new parseData().execute(url,Integer.toString(gradeNumber)).get();
-        allDataset = new ArrayList<classData>();
-        allDataset.addAll(classDataset);
-        //어댑터 달기
-        mAdapter = new MyAdapter(classDataset,Integer.toString(gradeNumber),isEmpty);
-        recyclerView.setAdapter(mAdapter);
+        showProgressDialog();
+        new Thread() {
+            public void run(){
+                getActivity().runOnUiThread(new Runnable(){ //mainThread에서 UI변경 해야하기 때문에 큐로 넣어준다.
+                    @Override
+                    public void run() {
+                        //데이터 넣기
+                        try {
+                            classDataset = new parseData().execute(url,Integer.toString(gradeNumber)).get();
+                        }
+                        catch (ExecutionException|InterruptedException e) { e.printStackTrace(); }
+
+                        //어댑터 달기
+                        mAdapter = new MyAdapter(classDataset,Integer.toString(gradeNumber),isEmpty);
+                        recyclerView.setAdapter(mAdapter);
+                    }
+                });
+                dialog.dismiss();
+            }
+        }.start();
     }
 
     public void parseBasic() throws ExecutionException, InterruptedException {
         ArrayList<ArrayList<String>> tmp;
         tmp = new parseList().execute().get();
-        basicName.add("전체");
         basicName.addAll(tmp.get(2));//기교 이름
+        basicNumber.addAll(tmp.get(3));//기교 번호
+        //선택 넣기
+        basicName.add(0,"선택"); basicNumber.add(0,"0");
+    }
+
+    private void showProgressDialog(){
+        dialog = new ProgressDialog(getActivity());
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        dialog.setMessage("강의 검색중");
+        dialog.show();
     }
 }

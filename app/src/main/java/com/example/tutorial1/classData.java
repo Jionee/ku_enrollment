@@ -9,9 +9,9 @@ public class classData {
     private String time;
     private String empty;
     private String current;
-    private ArrayList<String> basket;//학년별 수강바구니
-    private ArrayList<String> gradeEmpty;//학년별 수강인원
-    private ArrayList<String> gradeCurrent;//학년별 전체인원
+    private String basket;// 수강바구니
+    private String gradeEmpty;//학년별 수강인원
+    private String gradeCurrent;//학년별 전체인원
     private String field; //심교 영역
 
 
@@ -19,7 +19,7 @@ public class classData {
     public classData() {
     }
     public classData(String numbers, String name, String professor, String time,String empty, String current,
-                     ArrayList<String> basket,ArrayList<String> gradeEmpty, ArrayList<String> gradeCurrent, String field) {
+                     String basket,String gradeEmpty, String gradeCurrent, String field) {
         this.numbers=numbers;
         this.name=name;
         this.professor=professor;
@@ -33,27 +33,27 @@ public class classData {
     }
 
     //getter && setter
-    public ArrayList<String> getBasket() {
+    public String getBasket() {
         return basket;
     }
 
-    public void setBasket(ArrayList<String> basket) {
+    public void setBasket(String basket) {
         this.basket = basket;
     }
 
-    public ArrayList<String> getGradeEmpty() {
+    public String getGradeEmpty() {
         return gradeEmpty;
     }
 
-    public void setGradeEmpty(ArrayList<String> gradeEmpty) {
+    public void setGradeEmpty(String gradeEmpty) {
         this.gradeEmpty = gradeEmpty;
     }
 
-    public ArrayList<String> getGradeCurrent() {
+    public String getGradeCurrent() {
         return gradeCurrent;
     }
 
-    public void setGradeCurrent(ArrayList<String> gradeCurrent) {
+    public void setGradeCurrent(String gradeCurrent) {
         this.gradeCurrent = gradeCurrent;
     }
 

@@ -29,7 +29,8 @@
             android:textStyle="bold"
             android:gravity="center"
             android:paddingBottom="5dp"
-            android:textSize="16sp"/>
+            android:textSize="16sp"
+            android:bufferType="spannable"/>
         <TextView
             android:id="@+id/textView_current"
             android:layout_width="match_parent"
