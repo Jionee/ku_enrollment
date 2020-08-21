@@ -25,20 +25,20 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class Fragment_2 extends Fragment {
 
-    String url = null;
+    String url = "https://kupis.konkuk.ac.kr/sugang/acd/cour/time/SeoulTimetableInfo.jsp?ltYy=2020&ltShtm=B01012&pobtDiv=B04054";
 
     //1학기 B01011 2학기 B01012 하계계절학기 B01014 동계계절학기 B01015
     String base = "https://kupis.konkuk.ac.kr/sugang/acd/cour/time/SeoulTimetableInfo.jsp?ltYy=2020&ltShtm=B01012";
     String pobtDiv = "&pobtDiv="; // B04044:전필, B04045:전선, B04061:지필, B0404P:기교, B04054:심교, B04047:교직, B04046:일선, B04054:심교, ALL:전체
-    String cultCorsFld = "&cultCorsFld="; //기교선택
-    String openSust = "&openSust="; //학과
 
     private View view;
     private ArrayList<classData> classDataset; //수업정보
-    private ArrayList<classData> allDataset; //모든 심교 저장
 
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -53,11 +53,12 @@ public class Fragment_2 extends Fragment {
     private ArrayList<String> cultureName = new ArrayList<String>();
 
     private boolean isSearch = false;
-    private int culturePosition=9999; //0:전체 1: 학문소양및인성함양 2:글로벌인재양성 3:사고력증진
+    private int culturePosition=0; //0:전체 1: 학문소양및인성함양 2:글로벌인재양성 3:사고력증진
 
     ProgressDialog dialog;
     private String[] spinnerName= {"전체","학문소양및인성함양","글로벌인재양성","사고력증진"};
 
+    boolean done = false;
 
 
     //어댑터에 주기적으로 교체
@@ -84,13 +85,9 @@ public class Fragment_2 extends Fragment {
         textview_search.setOnClickListener(new TextView.OnClickListener(){
             @Override
             public void onClick(View view) {
-                if(culturePosition!=9999){ //영역 선택이 안됐으면
                     try { getData(url); } catch (ExecutionException | InterruptedException | IOException e) { e.printStackTrace(); }
                     isSearch=true;
-                }
-                else{
-                    Toast.makeText(getActivity(), "영역을 선택하세요", Toast.LENGTH_SHORT).show();
-                }
+                    switchButton.setChecked(false);//전체강의로 스위치
             }
         });
 
@@ -113,32 +110,12 @@ public class Fragment_2 extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //0:전체 1: 학문소양및인성함양 2:글로벌인재양성 3:사고력증진
-
                 culturePosition=position;
                 url = base+pobtDiv+"B04054";
-                /*ArrayList<classData> cloneDataset = new ArrayList<classData>();
-
-                Iterator<classData> iterator = allDataset.iterator();
-                while(iterator.hasNext()) {
-                    classData tmp = iterator.next();
-                    if(tmp.getField().equals((String)parent.getItemAtPosition(position))){
-                        cloneDataset.add(tmp);
-                    }
-                }
-                if(parent.getItemAtPosition(position).equals("전체")){
-                    classDataset.clear();
-                    classDataset.addAll(allDataset);
-                }
-                else{
-                    classDataset.clear();
-                    classDataset.addAll(cloneDataset);
-                }*/
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
+            public void onNothingSelected(AdapterView<?> parent) { }
         });
 
         //학년 별 탭 설정
@@ -151,16 +128,11 @@ public class Fragment_2 extends Fragment {
 
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener(){
             @Override //하단 탭 리스너 설정
-            public void onTabSelected(TabLayout.Tab tab) {
-                // tab의 상태가 선택 상태로 변경.
+            public void onTabSelected(TabLayout.Tab tab) { // tab의 상태가 선택 상태로 변경.
                 gradeNumber = tab.getPosition() ;
             }
-            public void onTabUnselected(TabLayout.Tab tab) {
-                // tab의 상태가 선택 상태로 변경.
-            }
-            public void onTabReselected(TabLayout.Tab tab) {
-                // 이미 선택된 tab이 다시
-            }
+            public void onTabUnselected(TabLayout.Tab tab) { } // tab의 상태가 선택 상태로 변경.
+            public void onTabReselected(TabLayout.Tab tab) { } // 이미 선택된 tab이 다시
         });
 
         //남는 강의 스위치 설정
@@ -182,12 +154,12 @@ public class Fragment_2 extends Fragment {
                         Iterator<classData> iterator = cloneDataset.iterator();
                         while(iterator.hasNext()){
                             classData tmp = iterator.next();
-                            if(gradeNumber==0){
+                            if(gradeNumber==0){//전체
                                 if((Integer.parseInt(tmp.getCurrent())-Integer.parseInt(tmp.getEmpty()))<1) { //인원이 0명이면
                                     iterator.remove();
                                 }
                             }
-                            else {
+                            else {//1,2,3,4학년
                                 if ((Integer.parseInt(tmp.getGradeCurrent()) - Integer.parseInt(tmp.getGradeEmpty())) < 1) { //인원이 0명이면
                                     iterator.remove();
                                 }
@@ -217,8 +189,7 @@ public class Fragment_2 extends Fragment {
 
     public void getData(String tmpUrl) throws IOException, ExecutionException, InterruptedException {
         showProgressDialog();
-        //데이터 넣기
-        new Thread() {
+        Thread thread = new Thread() {
             public void run(){
                 getActivity().runOnUiThread(new Runnable(){ //mainThread에서 UI변경 해야하기 때문에 큐로 넣어준다.
                     @Override
@@ -226,19 +197,21 @@ public class Fragment_2 extends Fragment {
                         //데이터 넣기
                         try {
                             classDataset = new parseData().execute(url,Integer.toString(gradeNumber)).get();
+                            System.out.println("####thread 끝####### "+classDataset.size());
                         }
                         catch (ExecutionException|InterruptedException e) { e.printStackTrace(); }
 
                         search();//심교 영역별로 골라내기
-
                         //어댑터 달기
-                        mAdapter = new MyAdapter(classDataset,Integer.toString(gradeNumber),isEmpty);
+                        mAdapter = new MyAdapter(classDataset, Integer.toString(gradeNumber), isEmpty);
                         recyclerView.setAdapter(mAdapter);
                     }
                 });
                 dialog.dismiss();
             }
-        }.start();
+        };
+        thread.start();
+
     }
     private void showProgressDialog(){
         dialog = new ProgressDialog(getActivity());
@@ -248,8 +221,8 @@ public class Fragment_2 extends Fragment {
     }
 
     private void search(){  //심교 영역별로 골라내기
-
-        if(!spinnerName[0].equals(spinnerName[culturePosition])){
+        System.out.println("*****SEARCH*****");
+        if( (!spinnerName[0].equals(spinnerName[culturePosition]))){ //전체가 아니면 remove
             Iterator<classData> iterator = classDataset.iterator();
             while(iterator.hasNext()) {
                 classData tmp = iterator.next();
@@ -258,6 +231,7 @@ public class Fragment_2 extends Fragment {
                 }
             }
         }
+
 
 
     }

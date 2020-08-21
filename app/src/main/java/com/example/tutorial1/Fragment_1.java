@@ -82,11 +82,12 @@ public class Fragment_1 extends Fragment {
         textview_search.setOnClickListener(new TextView.OnClickListener(){
             @Override
             public void onClick(View view) {
-                if(!majorNumber.get(0).equals("0")){ //학과 선택이 안됐으면
+                if(!majorNumber.get(0).equals("0")){
                     try { getData(url); } catch (ExecutionException | InterruptedException | IOException e) { e.printStackTrace(); }
                     isSearch=true;
+                    switchButton.setChecked(false);//전체강의로 스위치
                 }
-                else{
+                else{ //학과 선택이 안됐으면
                     Toast.makeText(getActivity(), "학과를 선택하세요", Toast.LENGTH_SHORT).show();
                     System.out.println("정보를 모두 선택하세요");
                 }

@@ -85,6 +85,7 @@ public class Fragment_3 extends Fragment {
                 if(!basicNumber.get(0).equals("0")){ //학과 선택이 안됐으면
                     try { getData(url); } catch (ExecutionException | InterruptedException | IOException e) { e.printStackTrace(); }
                     isSearch=true;
+                    switchButton.setChecked(false);//전체강의로 스위치
                 }
                 else{
                     Toast.makeText(getActivity(), "학과를 선택하세요", Toast.LENGTH_SHORT).show();

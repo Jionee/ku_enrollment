@@ -6,53 +6,101 @@ import android.util.Log;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.w3c.dom.Document;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class parseData extends AsyncTask <String,Void, ArrayList<classData>>{
 
+
     private ArrayList<classData> classDataset;
-    private classData classes;
-    private String basket;
-    private String gradeEmpty;
-    private String gradeCurrent;
+    private static classData[] c;
 
     Elements document = null;
-    Elements document2 = null;
-    Elements document3 = null;
-    Element element = null;
-    Element element2 = null;
-    Element element3 = null;
-    String tmp= null;
+    String string2_value = null;
 
-    String h = "https://kupis.konkuk.ac.kr/sugang/acd/cour/time/SeoulTimetableInfo.jsp?ltYy=2020&ltShtm=B01012&pobtDiv=B04045&openSust=127114";
-    String sbjBase = "https://kupis.konkuk.ac.kr/sugang/acd/cour/aply/CourInwonInqTime.jsp?ltYy=2020&ltShtm=B01012&sbjtId=";
-    String gradeBase = "https://kupis.konkuk.ac.kr/sugang/acd/cour/aply/CourBasketInwonInq.jsp?ltYy=2020&ltShtm=B01012&fg=B&sbjtId=";
 
     protected void onPreExecute(){
         classDataset = new ArrayList<>();
     }
     protected void onProgressUpdate() {
         super.onProgressUpdate();
-        //System.out.println(classDataset.size()+"번째 과목 로딩중");
     }
-
     protected void onPostExecute(){
 
     }
 
     protected ArrayList<classData> doInBackground(String... strings) {
+
+        int documentSize=0;
         try { //strings[0] : 전달받은주소 ==> 강의이름,강의번호,시간,교수님
             document = Jsoup.connect(strings[0]).get().select(".table_bg_white");
-        } catch (IOException e) {
-            e.printStackTrace();
+            documentSize = document.size();
+        } catch (IOException e) { e.printStackTrace(); }
+        string2_value = strings[1];
+
+        c = new classData[documentSize];
+        ThreadPoolExecutor threadPoolExecutor =
+                new ThreadPoolExecutor(20, 256, 1, TimeUnit.SECONDS, new LinkedBlockingQueue(100));
+
+        for (int i = 0; i < documentSize; i++) {
+            Task thread = new Task(document,i,string2_value,documentSize);
+            threadPoolExecutor.execute(thread);
         }
 
-        for(int i=0;i<document.size();i++){
+        //threadpool끝나기 기다리기
+        threadPoolExecutor.shutdown();
+        try {
+            threadPoolExecutor.awaitTermination(20, TimeUnit.SECONDS);
+            System.out.println("threadPool 다음줄");
+        } catch (InterruptedException e) { e.printStackTrace(); }
 
-            element = document.get(i);
+
+        for(int j=0;j<documentSize;j++){
+            classDataset.add(c[j]);
+        }
+
+        classDataset.remove(0);
+
+        return classDataset;
+    }
+
+    private static class Task implements Runnable {
+        String sbjBase = "https://kupis.konkuk.ac.kr/sugang/acd/cour/aply/CourInwonInqTime.jsp?ltYy=2020&ltShtm=B01012&sbjtId=";
+        String gradeBase = "https://kupis.konkuk.ac.kr/sugang/acd/cour/aply/CourBasketInwonInq.jsp?ltYy=2020&ltShtm=B01012&fg=B&sbjtId=";
+        int classSequence = 0;
+        Elements document1 = null;
+        Elements document2 = null;
+        Elements document3 = null;
+        Element element = null;
+        Element element2 = null;
+        Element element3 = null;
+        String tmp= null;
+        String gradePlus = null;
+        boolean done = false;
+        int documentSize=0;
+
+        /////////////////////////////
+        private classData classes;
+        private ArrayList<classData> classDataset=new ArrayList<classData>();
+
+        Task(Elements document,int classSequence,String gradePlus,int documentSize){
+            this.document1=document;
+            this.classSequence=classSequence;
+            this.gradePlus = gradePlus;
+            this.documentSize=documentSize;
+        }
+
+        @Override
+        public void run() {
+            //input : document객체, i번째과목, strings[1],
+            //return : classData
+            element = document1.get(classSequence);
 
             //남은 인원, 전체 인원 가져오기
             String classNum = element.select("td").eq(3).text();
@@ -67,7 +115,7 @@ public class parseData extends AsyncTask <String,Void, ArrayList<classData>>{
             element2 = document2.get(0);
 
             //학년 현재인원,남은인원
-            String finalGradeEmptyUrl = gradeEmptyUrl+strings[1];
+            String finalGradeEmptyUrl = gradeEmptyUrl+gradePlus;
             try {
                 document3 = Jsoup.connect(finalGradeEmptyUrl).get().select("body");
             } catch (IOException e) {
@@ -83,11 +131,15 @@ public class parseData extends AsyncTask <String,Void, ArrayList<classData>>{
                     element3.select("td").eq(0).text().trim(),tmp.substring(0,tmp.indexOf("/")).trim(),tmp.substring(tmp.indexOf("/")+1).trim()
                     ,element.select("td").eq(14).text());
 
-            classDataset.add(classes);
-            System.out.println(classDataset.size()+"번째 과목" +element.select("td").eq(4).text()+ "로딩중");
+            parseData.c[classSequence]=classes;
+            System.out.println((classSequence+1)+"번째 과목" +element.select("td").eq(4).text()+ "로딩중");
+
+
+        }//run끝
+
+        public classData getClasses(){
+            return classes;
         }
-        classDataset.remove(0);
-        return classDataset;
     }
 
 }

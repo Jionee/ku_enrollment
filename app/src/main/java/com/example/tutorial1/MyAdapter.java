@@ -58,6 +58,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     //데이터 세팅
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
+        System.out.println("어댑터 : "+position);
         holder.textView_number.setText(classDataset.get(position).getNumbers());
         holder.textView_name.setText(classDataset.get(position).getName().substring(0, classDataset.get(position).getName().indexOf("(")));
         holder.textView_professor.setText(classDataset.get(position).getProfessor());
