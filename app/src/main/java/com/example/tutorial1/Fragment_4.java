@@ -64,7 +64,10 @@ public class Fragment_4 extends Fragment {
             @Override
             public void onClick(View view) {
                 showProgressDialog();
-                if ( editText.getText().toString().length() == 0 ) { //공백일때
+                String input = editText.getText().toString();
+                //############잘못된 입력 처리 필요 ex)0001
+                if ( input.replace(" ", "").equals("")) { //공백일때
+                        /*||( (1000 > Integer.parseInt(editText.getText().toString()) || Integer.parseInt(editText.getText().toString()) > 9999))){*/ //4자리가아닐때
                     Toast.makeText(getActivity(), "과목 번호를 입력하세요", Toast.LENGTH_SHORT).show();
                 }
                 else {
@@ -75,10 +78,8 @@ public class Fragment_4 extends Fragment {
                         setView();
                     } catch (ExecutionException|InterruptedException e) { e.printStackTrace(); }
                 } //else 끝
-                editText.getText().clear();
                 dialog.dismiss();
             }
-
         });
 
 
@@ -116,7 +117,6 @@ public class Fragment_4 extends Fragment {
 
     private void setView(){
         TextView textview_name = (TextView) view.findViewById(R.id.textview_name);  //과목이름
-        TextView textview_professor = (TextView) view.findViewById(R.id.textview_professor);//교수님
         TextView textview_time = (TextView) view.findViewById(R.id.textview_time);//시간
         TextView textView_number = (TextView) view.findViewById(R.id.textView_number);//과목 번호
         TextView textview_gradeNumber = (TextView) view.findViewById(R.id.textview_gradeNumber);//탭) 학년
@@ -125,8 +125,7 @@ public class Fragment_4 extends Fragment {
         TextView textview_current = (TextView) view.findViewById(R.id.textview_current);//현재 신청 인원
         TextView textView_empty = (TextView) view.findViewById(R.id.textView_empty);//남은 인원
 
-        textview_name.setText(classes.getName().substring(0,classes.getName().indexOf("(")));
-        textview_professor.setText(classes.getProfessor());
+        textview_name.setText(classes.getName().substring(0,classes.getName().indexOf(" ("))+"("+classes.getProfessor()+")");
         textview_time.setText(classes.getTime());
         textView_number.setText(classes.getNumbers());
         if(gradeNumber==0){

@@ -29,7 +29,8 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:maxLength="4"
-            android:ems="8"/>
+            android:ems="8"
+            android:digits="0123456789"/>
 
     </LinearLayout>
     <LinearLayout
@@ -93,26 +94,14 @@
                     android:textStyle="bold"
                     android:textSize="16sp"
                     android:gravity="center"/>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:id="@+id/textview_professor"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:text="교수님"
-                        android:gravity="center" />
+
                     <TextView
                         android:id="@+id/textview_time"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
                         android:layout_weight="1"
                         android:text="시간"
                         android:gravity="center"/>
-                </LinearLayout>
 
 
             </LinearLayout>
@@ -130,6 +119,7 @@
             android:layout_height="30dp"
             android:text="학년"
             android:textColor="#3c701c"
+            android:textStyle="bold"
             android:gravity="center"/>
         <LinearLayout
             android:layout_width="match_parent"

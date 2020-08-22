@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         mTabLayout.addTab(mTabLayout.newTab().setCustomView(createTabView("심교")));
         mTabLayout.addTab(mTabLayout.newTab().setCustomView(createTabView("기교")));
         mTabLayout.addTab(mTabLayout.newTab().setCustomView(createTabView("검색")));
-        //mTabLayout.addTab(mTabLayout.newTab().setCustomView(createTabView("빌넣")));
+        mTabLayout.addTab(mTabLayout.newTab().setCustomView(createTabView("추가신청")));
 
         //슬라이드 viewPager 설정
         mViewPager = (ViewPager) findViewById(R.id.pager_content);
