@@ -20,11 +20,6 @@ import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
 
-    //****
-    private ArrayList<classData> classDataset; //수업정보
-    private RecyclerView recyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager layoutManager;
     private TabLayout mTabLayout; //상단바
     private Context mContext;
 
@@ -43,7 +38,8 @@ public class MainActivity extends AppCompatActivity {
         mTabLayout.addTab(mTabLayout.newTab().setCustomView(createTabView("전공")));
         mTabLayout.addTab(mTabLayout.newTab().setCustomView(createTabView("심교")));
         mTabLayout.addTab(mTabLayout.newTab().setCustomView(createTabView("기교")));
-        mTabLayout.getTabAt(0).setIcon(R.drawable.basket);
+        mTabLayout.addTab(mTabLayout.newTab().setCustomView(createTabView("검색")));
+        //mTabLayout.addTab(mTabLayout.newTab().setCustomView(createTabView("빌넣")));
 
         //슬라이드 viewPager 설정
         mViewPager = (ViewPager) findViewById(R.id.pager_content);

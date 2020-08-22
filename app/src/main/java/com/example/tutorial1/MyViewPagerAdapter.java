@@ -24,6 +24,11 @@ public class MyViewPagerAdapter extends FragmentPagerAdapter {
                 return Fragment_2.newInstance();
             case 2:
                 return Fragment_3.newInstance();
+            case 3:
+                return Fragment_4.newInstance();
+            /*case 4:
+                return Fragment_5.newInstance();*/
+
             default:
                 return null;
         }
@@ -45,6 +50,10 @@ public class MyViewPagerAdapter extends FragmentPagerAdapter {
                 return "심교";
             case 2:
                 return "기교";
+            case 3:
+                return "검색";
+            case 4:
+                return "빌넣";
             default:
                 return null;
         }
