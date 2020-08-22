@@ -124,8 +124,12 @@ public class Fragment_4 extends Fragment {
         TextView textview_entire = (TextView) view.findViewById(R.id.textview_entire);//전체인원
         TextView textview_current = (TextView) view.findViewById(R.id.textview_current);//현재 신청 인원
         TextView textView_empty = (TextView) view.findViewById(R.id.textView_empty);//남은 인원
+        TextView textview_1 = view.findViewById(R.id.textview_1);
+        TextView textview_2 = view.findViewById(R.id.textview_2);
+        TextView textview_3 = view.findViewById(R.id.textview_3);
+        TextView textview_4 = view.findViewById(R.id.textview_4);
 
-        textview_name.setText(classes.getName().substring(0,classes.getName().indexOf(" ("))+"("+classes.getProfessor()+")");
+        textview_name.setText(classes.getName().substring(0,classes.getName().indexOf("("))+"("+classes.getProfessor()+")");
         textview_time.setText(classes.getTime());
         textView_number.setText(classes.getNumbers());
         if(gradeNumber==0){
@@ -148,6 +152,10 @@ public class Fragment_4 extends Fragment {
             empt = Integer.parseInt(classes.getGradeEmpty());
             curr = Integer.parseInt(classes.getGradeCurrent());
         }
+        textview_1.setText("수강바구니");
+        textview_2.setText("전체 인원");
+        textview_3.setText("현재 신청 인원");
+        textview_4.setText("남은 인원");
 
         SpannableString spannableString = new SpannableString(Integer.toString(curr-empt));
         if(curr-empt < 1){ //0이하면 빨간색으로

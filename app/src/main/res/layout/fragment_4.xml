@@ -90,7 +90,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:text="과목 이름"
                     android:textStyle="bold"
                     android:textSize="16sp"
                     android:gravity="center"/>
@@ -100,7 +99,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:text="시간"
                         android:gravity="center"/>
 
 
@@ -110,14 +108,12 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="과목번호"
                 android:gravity="center"/>
         </LinearLayout>
         <TextView
             android:id="@+id/textview_gradeNumber"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:text="학년"
             android:textColor="#3c701c"
             android:textStyle="bold"
             android:gravity="center"/>
@@ -126,31 +122,31 @@
             android:layout_height="40dp"
             android:orientation="horizontal">
             <TextView
+                android:id="@+id/textview_1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="수강바구니"
                 android:gravity="center"
                 />
             <TextView
+                android:id="@+id/textview_2"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="전체 인원"
                 android:gravity="center"
                 />
             <TextView
+                android:id="@+id/textview_3"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="현재 신청 인원"
                 android:gravity="center"
                 />
             <TextView
+                android:id="@+id/textview_4"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="남은 인원"
                 android:gravity="center"
                 />
         </LinearLayout>
@@ -163,28 +159,24 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="number1"
                 android:gravity="center"/>
             <TextView
                 android:id="@+id/textview_entire"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="number2"
                 android:gravity="center"/>
             <TextView
                 android:id="@+id/textview_current"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="number3"
                 android:gravity="center"/>
             <TextView
                 android:id="@+id/textView_empty"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="number4"
                 android:gravity="center"/>
         </LinearLayout>
 

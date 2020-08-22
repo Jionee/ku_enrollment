@@ -38,6 +38,7 @@ public class Fragment_5 extends Fragment {
 
     private ArrayList<String> majorName = new ArrayList<String>(); //학과
     private ArrayList<String> majorUrl = new ArrayList<String>(); //학과url
+    private ArrayList<professorData> professorArr = new ArrayList<professorData>();
     private int majorPosition=0;
     private String url=null; //학과 정보 받아 올 url
 
@@ -73,10 +74,21 @@ public class Fragment_5 extends Fragment {
             public void onClick(View view) {
                 //학과 이름, URL 받아오기
 
-                    if(majorPosition!=0){ //스피너 설정 해야함
-                        //페이지 띄우기
-                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                        startActivity(intent);
+                    if(majorPosition!=0){
+
+                        if(33 < majorPosition && majorPosition < 50){ //창띄우기
+                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                            startActivity(intent);
+                        }
+                        else{ //정보띄우기
+                            try {
+                                professorArr = new parseEmail(url).execute().get();
+                            } catch (ExecutionException|InterruptedException e) { e.printStackTrace(); }
+
+                            //어댑터 달기
+                            mAdapter = new proffAdapter(professorArr);
+                            recyclerView.setAdapter(mAdapter);
+                        }
                     }
                     else
                         Toast.makeText(getActivity(), "학과를 선택하세요", Toast.LENGTH_SHORT).show();

@@ -11,9 +11,11 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class proffAdapter extends RecyclerView.Adapter<proffAdapter.MyViewHolder> {
+    private ArrayList<professorData> professorArr = new ArrayList<>();
 
     //각 text,image등을 연결
     public static class MyViewHolder extends RecyclerView.ViewHolder {
@@ -33,8 +35,8 @@ public class proffAdapter extends RecyclerView.Adapter<proffAdapter.MyViewHolder
         }
     }
 
-    public proffAdapter() {
-
+    public proffAdapter(ArrayList<professorData> professorArr) {
+        this.professorArr = professorArr;
     }
 
     // 각 줄 open
@@ -48,15 +50,14 @@ public class proffAdapter extends RecyclerView.Adapter<proffAdapter.MyViewHolder
     //데이터 세팅
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        /*holder.textView_number.setText(classDataset.get(position).getNumbers());
-        holder.textView_name.setText(classDataset.get(position).getName().substring(0, classDataset.get(position).getName().indexOf("(")));
-        holder.textView_professor.setText(classDataset.get(position).getProfessor());
-        holder.textView_time.setText(classDataset.get(position).getTime());*/
-
+        holder.textView_name.setText(professorArr.get(position).getName());
+        holder.textview_email.setText(professorArr.get(position).getEmail());
+        holder.textview_room.setText(professorArr.get(position).getRoom());
+        holder.textview_phone.setText(professorArr.get(position).getPhone());
     }
 
     @Override
     public int getItemCount() {
-        return 0; //##################수정
+        return professorArr.size();
     }
 }
