@@ -40,30 +40,28 @@ public class parseListProff extends AsyncTask <String,Void, ArrayList<ArrayList<
                 majorName.add(elements.eq(m).text());
                 majorUrl.add("http://www.konkuk.ac.kr/jsp/Coll/" + elements.eq(m).attr("href"));
             }
-            /*Iterator<Element> ie = document.get(i).select("li a").iterator();
-
-            while(ie.hasNext()){
-                Element indexElement = ie.next();
-                    majorName.add(indexElement.text());
-                majorUrl.add(indexElement.attr("href"));
-            }*/
-
         }
 
-        //문과대학,이과대학,건축대학,공과대학,소프트웨어학부,산업경영융합학부,사회과학대학,경영대학,KU융합과학기술원,상허생명과학대학,수의과대학,예술디자인대학,사범대학,교양교육센터,교양연구평가센터 //15개
-        ArrayList<Integer> arr = new ArrayList<Integer>( Arrays.asList(0, 9, 13, 15, 20, 23, 30, 38, 42, 51, 59, 62, 69, 77, 78));
-        Iterator<Integer> ie3 = arr.iterator();
-        while(ie3.hasNext()){
-            Integer index = ie3.next();
-            majorName.remove(index);
-            majorUrl.remove(index);
-        }
+        //문과대학,이과대학,건축대학,공과대학,소프트웨어학부,산업경영융합학부,사회과학대학,경영대학,KU융합과학기술원,상허생명과학대학,수의과대학,예술디자인대학,사범대학,교양교육센터,교양연구평가센터 //15개 지우기
+        /*ArrayList<Integer> arr = new ArrayList<Integer>(Arrays.asList(0, 9, 13, 15, 28, 36, 40, 49, 57, 60, 67, 76, 77));*/
+        {majorName.remove(77);   majorUrl.remove(77);
+        majorName.remove(76);   majorUrl.remove(76);
+        majorName.remove(67);   majorUrl.remove(67);
+        majorName.remove(60);   majorUrl.remove(60);
+        majorName.remove(57);   majorUrl.remove(57);
+        majorName.remove(49);   majorUrl.remove(49);
+        majorName.remove(40);   majorUrl.remove(40);
+        majorName.remove(36);   majorUrl.remove(36);
+        majorName.remove(28);   majorUrl.remove(28);
+        majorName.remove(15);   majorUrl.remove(15);
+        majorName.remove(13);   majorUrl.remove(13);
+        majorName.remove(9);   majorUrl.remove(9);
+        majorName.remove(0);   majorUrl.remove(0);}
+        majorName.add(0,"선택");  majorUrl.add(0,"");
 
         nameUrl.add(majorName);
         nameUrl.add(majorUrl);
 
         return nameUrl;
     }
-
-
 }
