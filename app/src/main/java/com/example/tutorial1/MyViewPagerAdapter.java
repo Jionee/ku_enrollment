@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+import java.util.concurrent.ExecutionException;
+
 public class MyViewPagerAdapter extends FragmentPagerAdapter {
     private int mPageCount;
 
@@ -25,7 +27,9 @@ public class MyViewPagerAdapter extends FragmentPagerAdapter {
             case 2:
                 return Fragment_3.newInstance();
             case 3:
-                return Fragment_4.newInstance();
+                try {
+                    return Fragment_4.newInstance();
+                } catch (ExecutionException|InterruptedException e) { e.printStackTrace(); }
             case 4:
                 return Fragment_5.newInstance();
 

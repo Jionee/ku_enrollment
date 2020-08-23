@@ -1,10 +1,15 @@
 package com.example.tutorial1;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,13 +26,19 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.tabs.TabLayout;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.kyleduo.switchbutton.SwitchButton;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.w3c.dom.Text;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 
@@ -46,24 +57,39 @@ public class Fragment_4 extends Fragment {
     private classData classes = null;
     private ArrayList<classData> classArr = new ArrayList<>();
     private classData reloadClasses = null;
+    //공유변수
+    private ArrayList<String> sharedClassNum = new ArrayList<>();
+    private ArrayList<String> sharedGradeNum = new ArrayList<>();
+
+    Context thisContext = null;
 
     ProgressDialog dialog;
 
     //어댑터에 주기적으로 교체
-    public static Fragment_4 newInstance(){
+    public static Fragment_4 newInstance() throws ExecutionException, InterruptedException {
         Fragment_4 fragment_4 = new Fragment_4();
         return fragment_4;
     }
 
-    public Fragment_4() { }
+    //생성자
+    public Fragment_4() throws ExecutionException, InterruptedException {
+        onAttach(getActivity());
+    }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        //초기 데이터 가져오기
+
         view = inflater.inflate(R.layout.fragment_4, container, false);
         //recyclerView 설정
         recyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(layoutManager);
+
+        //저장된 데이터 로딩
+        loadData();
+        mAdapter = new addAdapter(classArr,gradeNumber);
+        recyclerView.setAdapter(mAdapter);
 
         //과목 번호 입력받기
         editText = (EditText) view.findViewById(R.id.editText);
@@ -76,9 +102,7 @@ public class Fragment_4 extends Fragment {
                 gradeNumber = tmpGradeNumber;
                 showProgressDialog();
                 String input = editText.getText().toString();
-                //############잘못된 입력 처리 필요 ex)0001
                 if ( input.replace(" ", "").equals("")) { //공백일때
-                        /*||( (1000 > Integer.parseInt(editText.getText().toString()) || Integer.parseInt(editText.getText().toString()) > 9999))){*/ //4자리가아닐때
                     Toast.makeText(getActivity(), "과목 번호를 입력하세요", Toast.LENGTH_SHORT).show();
                 }
                 else {
@@ -120,6 +144,7 @@ public class Fragment_4 extends Fragment {
                     if(isExist==false){ //중복된 강의 체크
                         //강의 추가
                         classArr.add(classes);
+                        saveData(thisContext,classArr);
                         //추가될때마다 갱신
                         mAdapter = new addAdapter(classArr,gradeNumber);
                         recyclerView.setAdapter(mAdapter);
@@ -136,8 +161,6 @@ public class Fragment_4 extends Fragment {
             @Override
             public void onClick(View view) {
                 //삭제
-                //classArr.size만큼 | (Iterator사용) classArr.get(i).getClassNum && getGradeNumber 비교해서 같은게 있으면 리스트에서 삭제
-                //                 | 같은게 없으면 해당되는 강의가 없습니다 토스트 출력
 
                 boolean isExist = false;
                 //중복 제거
@@ -148,12 +171,12 @@ public class Fragment_4 extends Fragment {
                             classData itNext = it.next();
                             if(itNext.getNumbers().equals(edit_classNum) && itNext.getGradeNumber()==gradeNumber){
                                 it.remove(); //삭제
+                                saveData(thisContext,classArr);
                                 isExist = true;
                                 break;
                             }
                         }
                     }
-
                     if(isExist==true){
                         //삭제될때마다 갱신
                         mAdapter = new addAdapter(classArr,gradeNumber);
@@ -273,5 +296,31 @@ public class Fragment_4 extends Fragment {
             spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#3c701c")), 0, spannableString.length(), 0);
         }
         textView_empty.setText(spannableString); //남은인원
+    }
+
+    public static void saveData(Context thisContext,ArrayList<classData> classArr) {
+        SharedPreferences sharedPreferences = thisContext.getSharedPreferences("sharedPreferences",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(classArr);
+        editor.putString("classArr",json);
+        editor.apply();
+    }
+
+    private void loadData(){
+        SharedPreferences sharedPreferences = thisContext.getSharedPreferences("sharedPreferences",Context.MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("classArr",null);
+        Type type = new TypeToken<ArrayList<classData>>() {}.getType();
+        classArr = gson.fromJson(json, type);
+        if(classArr == null){
+            classArr = new ArrayList<>();
+        }
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        thisContext = activity;
     }
 }
