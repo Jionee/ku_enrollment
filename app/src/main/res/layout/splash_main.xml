@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity"
+    android:background="#527404">
+
+   <!-- <LinearLayout
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="130dp"
+        android:background="@drawable/basket" />-->
+
+    <TextView
+        android:layout_marginTop="120dp"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:text="수KU"
+        android:fontFamily="@font/golmokgil"
+        android:textColor="#ffffff"
+        android:textSize="70sp"
+        android:gravity="center"/>
+
+    <TextView
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:textColor="#e2f0c3"
+    android:text="남은인원, 강의 검색, 추가신청까지 !"
+    android:textSize="20sp"
+    android:fontFamily="@font/golmokgil"
+    android:gravity="center"/>
+
+    <TextView
+        android:layout_marginTop="220dp"
+        android:layout_marginLeft="190dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:textColor="#e2f0c3"
+        android:text="문의 : dnjswldb98@konkuk.ac.kr"
+        android:textSize="13sp"
+        android:fontFamily="@font/golmokgil"
+        android:gravity="center"/>
+
+</LinearLayout>
