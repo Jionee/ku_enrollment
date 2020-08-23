@@ -13,6 +13,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
@@ -64,6 +66,7 @@ public class Fragment_4 extends Fragment {
     Context thisContext = null;
 
     ProgressDialog dialog;
+    Animation anim;
 
     //어댑터에 주기적으로 교체
     public static Fragment_4 newInstance() throws ExecutionException, InterruptedException {
@@ -95,7 +98,7 @@ public class Fragment_4 extends Fragment {
         editText = (EditText) view.findViewById(R.id.editText);
 
         //검색 버튼 설정
-        TextView textview_search = view.findViewById(R.id.textView_search);
+        final TextView textview_search = view.findViewById(R.id.textView_search);
         textview_search.setOnClickListener(new TextView.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -155,6 +158,12 @@ public class Fragment_4 extends Fragment {
             }
         });
 
+        anim = new AlphaAnimation(0.0f,1.0f);
+        anim.setDuration(100);
+        anim.setStartOffset(20);
+        anim.setRepeatMode(Animation.REVERSE);
+        anim.setRepeatCount(2);
+
         //강의 삭제 버튼
         TextView textview_delete = view.findViewById(R.id.textview_delete);
         textview_delete.setOnClickListener(new TextView.OnClickListener(){
@@ -182,9 +191,12 @@ public class Fragment_4 extends Fragment {
                         mAdapter = new addAdapter(classArr,gradeNumber);
                         recyclerView.setAdapter(mAdapter);
                     }
-                    else{ Toast.makeText(getActivity(), "추가되지 않은 강의입니다", Toast.LENGTH_SHORT).show(); }
+                    else{ Toast.makeText(getActivity(), "추가되지 않은 강의입니다", Toast.LENGTH_SHORT).show();
+                        textview_search.startAnimation(anim);
+                    }
                 }
-                else{ Toast.makeText(getActivity(), "검색을 먼저 해주세요", Toast.LENGTH_SHORT).show(); }
+                else{ Toast.makeText(getActivity(), "검색을 먼저 해주세요", Toast.LENGTH_SHORT).show();
+                    textview_search.startAnimation(anim);}
             }
         });
 

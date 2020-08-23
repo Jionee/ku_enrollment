@@ -220,6 +220,8 @@ public class Fragment_3 extends Fragment {
     public void parseBasic() throws ExecutionException, InterruptedException {
         ArrayList<ArrayList<String>> tmp;
         tmp = new parseList().execute().get();
+        basicName = new ArrayList<String>();
+        basicNumber = new ArrayList<String>();
         basicName.addAll(tmp.get(2));//기교 이름
         basicNumber.addAll(tmp.get(3));//기교 번호
         //선택 넣기

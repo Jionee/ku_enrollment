@@ -92,6 +92,7 @@ public class Fragment_2 extends Fragment {
         });
 
         //스피너
+        cultureName = new ArrayList<String>();
         cultureName.add("전체");
         cultureName.add("학문소양및인성함양");
         cultureName.add("글로벌인재양성");

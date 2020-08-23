@@ -222,6 +222,8 @@ public class Fragment_1 extends Fragment {
     public void parseMajor() throws ExecutionException, InterruptedException {
         ArrayList<ArrayList<String>> tmp;
         tmp = new parseList().execute().get();
+        majorName = new ArrayList<String>();
+        majorNumber = new ArrayList<String>();
         majorName.addAll(tmp.get(0));//학과 이름
         majorNumber.addAll(tmp.get(1));//학과 번호
         //전체는 빼고 선택 넣기
