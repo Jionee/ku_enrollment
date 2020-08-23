@@ -13,13 +13,14 @@ public class classData {
     private String gradeEmpty;//학년별 수강인원
     private String gradeCurrent;//학년별 전체인원
     private String field; //심교 영역
+    private int gradeNumber; //한눈에보기 학년정보
 
 
     //생성자
     public classData() {
     }
     public classData(String numbers, String name, String professor, String time,String empty, String current,
-                     String basket,String gradeEmpty, String gradeCurrent, String field) {
+                     String basket,String gradeEmpty, String gradeCurrent, String field, int gradeNumber) {
         this.numbers=numbers;
         this.name=name;
         this.professor=professor;
@@ -30,6 +31,7 @@ public class classData {
         this.gradeEmpty = gradeEmpty;
         this.gradeCurrent = gradeCurrent;
         this.field = field;
+        this.gradeNumber = gradeNumber;
     }
 
     //getter && setter
@@ -113,7 +115,13 @@ public class classData {
         this.field = field;
     }
 
+    public int getGradeNumber() {
+        return gradeNumber;
+    }
 
+    public void setGradeNumber(int gradeNumber) {
+        this.gradeNumber = gradeNumber;
+    }
 
 
 

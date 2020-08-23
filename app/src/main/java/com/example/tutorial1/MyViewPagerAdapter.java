@@ -51,7 +51,7 @@ public class MyViewPagerAdapter extends FragmentPagerAdapter {
             case 2:
                 return "기교";
             case 3:
-                return "검색";
+                return "검색/저장";
             case 4:
                 return "추가신청";
             default:

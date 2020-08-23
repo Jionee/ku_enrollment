@@ -173,14 +173,14 @@ public class Fragment_3 extends Fragment {
                                 }
                             }
                             //어댑터 달기
-                            mAdapter = new MyAdapter(cloneDataset,Integer.toString(gradeNumber),isEmpty);
+                            mAdapter = new MyAdapter(cloneDataset,Integer.toString(gradeNumber));
                         }
                     }
                     else{ //전체 강의
                         isEmpty=false;
                         optionState.setText("전체 강의");
                         //어댑터 달기
-                        mAdapter = new MyAdapter(classDataset,Integer.toString(gradeNumber),isEmpty);
+                        mAdapter = new MyAdapter(classDataset,Integer.toString(gradeNumber));
                     }
                     recyclerView.setAdapter(mAdapter);
                 }
@@ -208,7 +208,7 @@ public class Fragment_3 extends Fragment {
                         catch (ExecutionException|InterruptedException e) { e.printStackTrace(); }
 
                         //어댑터 달기
-                        mAdapter = new MyAdapter(classDataset,Integer.toString(gradeNumber),isEmpty);
+                        mAdapter = new MyAdapter(classDataset,Integer.toString(gradeNumber));
                         recyclerView.setAdapter(mAdapter);
                     }
                 });

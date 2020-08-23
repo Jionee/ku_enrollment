@@ -34,11 +34,18 @@ import java.util.concurrent.ExecutionException;
 public class Fragment_4 extends Fragment {
 
     private View view;
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager layoutManager;
+
     private TabLayout mTabLayout; //전체,1,2,3,4
     private EditText editText;
     private String edit_classNum=null;
+    private int tmpGradeNumber=0;
     private int gradeNumber=0;
     private classData classes = null;
+    private ArrayList<classData> classArr = new ArrayList<>();
+    private classData reloadClasses = null;
 
     ProgressDialog dialog;
 
@@ -48,12 +55,15 @@ public class Fragment_4 extends Fragment {
         return fragment_4;
     }
 
-    public Fragment_4() {
-        // Required empty public constructor
-    }
+    public Fragment_4() { }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_4, container, false);
+        //recyclerView 설정
+        recyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(view.getContext());
+        recyclerView.setLayoutManager(layoutManager);
 
         //과목 번호 입력받기
         editText = (EditText) view.findViewById(R.id.editText);
@@ -63,6 +73,7 @@ public class Fragment_4 extends Fragment {
         textview_search.setOnClickListener(new TextView.OnClickListener(){
             @Override
             public void onClick(View view) {
+                gradeNumber = tmpGradeNumber;
                 showProgressDialog();
                 String input = editText.getText().toString();
                 //############잘못된 입력 처리 필요 ex)0001
@@ -72,13 +83,113 @@ public class Fragment_4 extends Fragment {
                 }
                 else {
                     edit_classNum = editText.getText().toString(); //과목 번호 받아오기
-                    //파싱
-                    try {
-                        classes = new parseSearch().execute(edit_classNum, Integer.toString(gradeNumber)).get();
-                        setView();
+                    try {  //파싱
+                        classes = new parseSearch().execute(edit_classNum, Integer.toString(gradeNumber)).get(); //검색
+                        if(classes==null){
+                            Toast.makeText(getActivity(), "검색한 내역이 존재하지 않습니다.", Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            setView();
+                        }
                     } catch (ExecutionException|InterruptedException e) { e.printStackTrace(); }
                 } //else 끝
                 dialog.dismiss();
+            }
+        });
+
+        //강의 추가 버튼
+        TextView textview_add = view.findViewById(R.id.textview_add);
+        textview_add.setOnClickListener(new TextView.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                boolean isExist = false;
+                //중복 제거
+                if(classes!=null){ //검색했을때만
+
+                    if(classArr!=null){ //강의번호로 중복되는지 검색
+                        Iterator<classData> it = classArr.iterator();
+                        while(it.hasNext()){
+                            classData itNext = it.next();
+                            if(itNext.getNumbers().equals(edit_classNum) && itNext.getGradeNumber()==gradeNumber){
+                                isExist = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    if(isExist==false){ //중복된 강의 체크
+                        //강의 추가
+                        classArr.add(classes);
+                        //추가될때마다 갱신
+                        mAdapter = new addAdapter(classArr,gradeNumber);
+                        recyclerView.setAdapter(mAdapter);
+                    }
+                    else{ Toast.makeText(getActivity(), "(과목번호&학년이) 중복된 강의입니다", Toast.LENGTH_SHORT).show(); }
+                }
+                else{ Toast.makeText(getActivity(), "검색을 먼저 해주세요", Toast.LENGTH_SHORT).show(); }
+            }
+        });
+
+        //강의 삭제 버튼
+        TextView textview_delete = view.findViewById(R.id.textview_delete);
+        textview_delete.setOnClickListener(new TextView.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                //삭제
+                //classArr.size만큼 | (Iterator사용) classArr.get(i).getClassNum && getGradeNumber 비교해서 같은게 있으면 리스트에서 삭제
+                //                 | 같은게 없으면 해당되는 강의가 없습니다 토스트 출력
+
+                boolean isExist = false;
+                //중복 제거
+                if(classes!=null){ //검색했을때만
+                    if(classArr!=null){ //강의번호로 존재하는지 검색 후 삭제
+                        Iterator<classData> it = classArr.iterator();
+                        while(it.hasNext()){
+                            classData itNext = it.next();
+                            if(itNext.getNumbers().equals(edit_classNum) && itNext.getGradeNumber()==gradeNumber){
+                                it.remove(); //삭제
+                                isExist = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    if(isExist==true){
+                        //삭제될때마다 갱신
+                        mAdapter = new addAdapter(classArr,gradeNumber);
+                        recyclerView.setAdapter(mAdapter);
+                    }
+                    else{ Toast.makeText(getActivity(), "추가되지 않은 강의입니다", Toast.LENGTH_SHORT).show(); }
+                }
+                else{ Toast.makeText(getActivity(), "검색을 먼저 해주세요", Toast.LENGTH_SHORT).show(); }
+            }
+        });
+
+        //새로고침버튼
+        TextView textview_reload = view.findViewById(R.id.textview_reload);
+        textview_reload.setOnClickListener(new TextView.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                //새로고침버튼 누르면 갱신
+                if(classArr.size()>0){
+                    Toast.makeText(getActivity(), "새로고침을 시작합니다", Toast.LENGTH_SHORT).show();
+                    ArrayList<classData> reloadArr = new ArrayList<>();
+                    //parseSearch 해서 갱신해주기
+                    Iterator<classData> it = classArr.iterator();
+                    while(it.hasNext()){
+                        classData itNext = it.next();
+                        try {
+                            reloadClasses = new parseSearch().execute(itNext.getNumbers(), Integer.toString(itNext.getGradeNumber())).get(); //검색
+                            reloadArr.add(reloadClasses);
+                        } catch (ExecutionException|InterruptedException e) { e.printStackTrace(); }
+                    }
+                    classArr = new ArrayList<>();
+                    classArr.addAll(reloadArr);
+
+                    mAdapter = new addAdapter(classArr,gradeNumber);
+                    recyclerView.setAdapter(mAdapter);
+                }
+                else{ Toast.makeText(getActivity(), "강의를 먼저 추가 해주세요", Toast.LENGTH_SHORT).show(); }
             }
         });
 
@@ -95,7 +206,7 @@ public class Fragment_4 extends Fragment {
             @Override //탭 리스너 설정
             public void onTabSelected(TabLayout.Tab tab) {
                 // tab의 상태가 선택 상태로 변경.
-                gradeNumber = tab.getPosition() ;
+                tmpGradeNumber = tab.getPosition() ;
             }
             public void onTabUnselected(TabLayout.Tab tab) {
                 // tab의 상태가 선택 상태로 변경.
@@ -116,10 +227,10 @@ public class Fragment_4 extends Fragment {
     }
 
     private void setView(){
+        TextView textview_grade = (TextView) view.findViewById(R.id.textview_grade); //학년
         TextView textview_name = (TextView) view.findViewById(R.id.textview_name);  //과목이름
         TextView textview_time = (TextView) view.findViewById(R.id.textview_time);//시간
         TextView textView_number = (TextView) view.findViewById(R.id.textView_number);//과목 번호
-        TextView textview_gradeNumber = (TextView) view.findViewById(R.id.textview_gradeNumber);//탭) 학년
         TextView textview_basket = (TextView) view.findViewById(R.id.textview_basket);//수강바구니인원
         TextView textview_entire = (TextView) view.findViewById(R.id.textview_entire);//전체인원
         TextView textview_current = (TextView) view.findViewById(R.id.textview_current);//현재 신청 인원
@@ -132,21 +243,18 @@ public class Fragment_4 extends Fragment {
         textview_name.setText(classes.getName().substring(0,classes.getName().indexOf("("))+"("+classes.getProfessor()+")");
         textview_time.setText(classes.getTime());
         textView_number.setText(classes.getNumbers());
-        if(gradeNumber==0){
-            textview_gradeNumber.setText("전체");
-        }else{
-            textview_gradeNumber.setText(gradeNumber+"학년");
-        }
         textview_basket.setText(classes.getBasket());
 
         int empt=0; int curr=0;
         if(gradeNumber==0){
+            textview_grade.setText("전체");
             textview_current.setText(classes.getEmpty());
             textview_entire.setText(classes.getCurrent());
             empt = Integer.parseInt(classes.getEmpty());
             curr = Integer.parseInt(classes.getCurrent());
         }
         else{
+            textview_grade.setText(classes.getGradeNumber()+"학년");
             textview_current.setText(classes.getGradeEmpty());
             textview_entire.setText(classes.getGradeCurrent());
             empt = Integer.parseInt(classes.getGradeEmpty());
@@ -164,6 +272,6 @@ public class Fragment_4 extends Fragment {
         else{ //남으면 초록색
             spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#3c701c")), 0, spannableString.length(), 0);
         }
-        textView_empty.setText(Integer.toString(curr-empt)); //남은인원
+        textView_empty.setText(spannableString); //남은인원
     }
 }

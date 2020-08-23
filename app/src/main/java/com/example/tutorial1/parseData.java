@@ -129,7 +129,7 @@ public class parseData extends AsyncTask <String,Void, ArrayList<classData>>{
                     element.select("td").eq(9).text(),element.select("td").eq(8).text(),
                     element2.select("td").eq(3).text(),element2.select("td").eq(5).text(),
                     element3.select("td").eq(0).text().trim(),tmp.substring(0,tmp.indexOf("/")).trim(),tmp.substring(tmp.indexOf("/")+1).trim()
-                    ,element.select("td").eq(14).text());
+                    ,element.select("td").eq(14).text(),Integer.parseInt(gradePlus));
 
             parseData.c[classSequence]=classes;
             System.out.println((classSequence+1)+"번째 과목" +element.select("td").eq(4).text()+ "로딩중");
