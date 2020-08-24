@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Fragment_1">
+    tools:context="com.konkuk.suku.Fragment_1">
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -73,7 +73,8 @@
         android:orientation="vertical"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:background="@drawable/round_style2">
+        android:background="@drawable/round_style2"
+        android:padding="3dp">
         <!--[[과목이름,교수님],시간],과목번호-->
         <LinearLayout
             android:layout_width="match_parent"
@@ -238,7 +239,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:text="삭제"
-                android:textColor="#d41611"
+                android:textColor="#f4502a"
                 android:fontFamily="@font/golmokgil"
                 android:background="@drawable/button_back"/>
 

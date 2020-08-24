@@ -1,8 +1,5 @@
-package com.example.tutorial1;
+package com.konkuk.suku;
 
-import android.graphics.Color;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +8,8 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.lang.reflect.Array;
+import com.konkuk.suku.R;
+
 import java.util.ArrayList;
 
 public class proffAdapter extends RecyclerView.Adapter<proffAdapter.MyViewHolder> {

@@ -1,4 +1,4 @@
-package com.example.tutorial1;
+package com.konkuk.suku;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

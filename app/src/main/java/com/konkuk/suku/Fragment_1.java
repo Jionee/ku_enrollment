@@ -1,4 +1,4 @@
-package com.example.tutorial1;
+package com.konkuk.suku;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -7,18 +7,17 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.konkuk.suku.R;
 import com.google.android.material.tabs.TabLayout;
 import com.kyleduo.switchbutton.SwitchButton;
 
@@ -234,7 +233,7 @@ public class Fragment_1 extends Fragment {
     private void showProgressDialog(){
         dialog = new ProgressDialog(getActivity());
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        dialog.setMessage("강의 검색중");
+        dialog.setMessage("실시간 정보를 받아 강의 검색중입니다");
         dialog.show();
     }
 }

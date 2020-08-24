@@ -1,4 +1,4 @@
-package com.example.tutorial1;
+package com.konkuk.Suku;
 
 import android.content.Context;
 

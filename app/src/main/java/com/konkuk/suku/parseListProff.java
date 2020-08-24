@@ -1,19 +1,12 @@
-package com.example.tutorial1;
+package com.konkuk.suku;
 
 import android.os.AsyncTask;
 
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.w3c.dom.Document;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 public class parseListProff extends AsyncTask <String,Void, ArrayList<ArrayList<String>>>{
 

@@ -1,4 +1,4 @@
-package com.example.tutorial1;
+package com.konkuk.suku;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +17,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.konkuk.suku.R;
 import com.google.android.material.tabs.TabLayout;
 import com.kyleduo.switchbutton.SwitchButton;
 
@@ -25,20 +25,20 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
-public class Fragment_2 extends Fragment {
-
-    String url = "https://kupis.konkuk.ac.kr/sugang/acd/cour/time/SeoulTimetableInfo.jsp?ltYy=2020&ltShtm=B01012&pobtDiv=B04054";
+public class Fragment_3 extends Fragment {
+    //String url = "https://kupis.konkuk.ac.kr/sugang/acd/cour/time/SeoulTimetableInfo.jsp?ltYy=2020&ltShtm=B01012&openSust=006751&pobtDiv=B0404P";//전체대학 기교 전체
+    String url = null;
 
     //1학기 B01011 2학기 B01012 하계계절학기 B01014 동계계절학기 B01015
     String base = "https://kupis.konkuk.ac.kr/sugang/acd/cour/time/SeoulTimetableInfo.jsp?ltYy=2020&ltShtm=B01012";
     String pobtDiv = "&pobtDiv="; // B04044:전필, B04045:전선, B04061:지필, B0404P:기교, B04054:심교, B04047:교직, B04046:일선, B04054:심교, ALL:전체
+    String cultCorsFld = "&cultCorsFld="; //기교선택
+    String openSust = "&openSust="; //학과
 
     private View view;
     private ArrayList<classData> classDataset; //수업정보
+    private ArrayList<classData> allDataset; //모든 심교 저장
 
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -50,30 +50,27 @@ public class Fragment_2 extends Fragment {
     private boolean isEmpty=false;
 
     private Spinner spinner;
-    private ArrayList<String> cultureName = new ArrayList<String>();
+    private ArrayList<String> basicName = new ArrayList<String>();
+    private ArrayList<String> basicNumber = new ArrayList<String>();
 
     private boolean isSearch = false;
-    private int culturePosition=0; //0:전체 1: 학문소양및인성함양 2:글로벌인재양성 3:사고력증진
 
     ProgressDialog dialog;
-    private String[] spinnerName= {"전체","학문소양및인성함양","글로벌인재양성","사고력증진"};
-
-    boolean done = false;
-
 
     //어댑터에 주기적으로 교체
-    public static Fragment_2 newInstance(){
-        Fragment_2 fragment_2 = new Fragment_2();
-        return fragment_2;
+    public static Fragment_3 newInstance(){
+        Fragment_3 fragment_3 = new Fragment_3();
+        return fragment_3;
+
     }
 
-    public Fragment_2() {
+    public Fragment_3() {
         // Required empty public constructor
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //fragment_2.xml이랑 연동
-        view = inflater.inflate(R.layout.fragment_2, container, false);
+        //fragment_1.xml이랑 연동
+        view = inflater.inflate(R.layout.fragment_3, container, false);
         //recyclerView 설정
         recyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -85,22 +82,25 @@ public class Fragment_2 extends Fragment {
         textview_search.setOnClickListener(new TextView.OnClickListener(){
             @Override
             public void onClick(View view) {
+                if(!basicNumber.get(0).equals("0")){ //학과 선택이 안됐으면
                     try { getData(url); } catch (ExecutionException | InterruptedException | IOException e) { e.printStackTrace(); }
                     isSearch=true;
                     switchButton.setChecked(false);//전체강의로 스위치
+                }
+                else{
+                    Toast.makeText(getActivity(), "학과를 선택하세요", Toast.LENGTH_SHORT).show();
+                    System.out.println("정보를 모두 선택하세요");
+                }
             }
         });
 
         //스피너
-        cultureName = new ArrayList<String>();
-        cultureName.add("전체");
-        cultureName.add("학문소양및인성함양");
-        cultureName.add("글로벌인재양성");
-        cultureName.add("사고력증진");
-        spinner = (Spinner) view.findViewById(R.id.spinner_culture);
-        final TextView t = view.findViewById(R.id.textView_switch);
+        spinner = (Spinner) view.findViewById(R.id.spinner_basic);
+        final TextView t = view.findViewById(R.id.testView_basic);
+        //기교 이름 정보 받아오기
+        try { parseBasic(); } catch (ExecutionException | InterruptedException e) { e.printStackTrace(); }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(view.getContext(),android.R.layout.simple_spinner_item,cultureName); //스피너 목록 이름 생성
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(view.getContext(),android.R.layout.simple_spinner_item,basicName); //스피너 목록 이름 생성
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setSelected(false); //스피너 초기 선택X 위해
@@ -110,13 +110,14 @@ public class Fragment_2 extends Fragment {
             int i=0;
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //0:전체 1: 학문소양및인성함양 2:글로벌인재양성 3:사고력증진
-                culturePosition=position;
-                url = base+pobtDiv+"B04054";
+                basicNumber.set(0,"1");
+                String basicNum = basicNumber.get(position);
+                url = base+pobtDiv+"B0404P"+cultCorsFld+basicNum;
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) { }
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
 
         //학년 별 탭 설정
@@ -129,11 +130,17 @@ public class Fragment_2 extends Fragment {
 
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener(){
             @Override //하단 탭 리스너 설정
-            public void onTabSelected(TabLayout.Tab tab) { // tab의 상태가 선택 상태로 변경.
+            public void onTabSelected(TabLayout.Tab tab) {
+                // tab의 상태가 선택 상태로 변경.
                 gradeNumber = tab.getPosition() ;
+                switchButton.setChecked(false);
             }
-            public void onTabUnselected(TabLayout.Tab tab) { } // tab의 상태가 선택 상태로 변경.
-            public void onTabReselected(TabLayout.Tab tab) { } // 이미 선택된 tab이 다시
+            public void onTabUnselected(TabLayout.Tab tab) {
+                // tab의 상태가 선택 상태로 변경.
+            }
+            public void onTabReselected(TabLayout.Tab tab) {
+                // 이미 선택된 tab이 다시
+            }
         });
 
         //남는 강의 스위치 설정
@@ -155,12 +162,12 @@ public class Fragment_2 extends Fragment {
                         Iterator<classData> iterator = cloneDataset.iterator();
                         while(iterator.hasNext()){
                             classData tmp = iterator.next();
-                            if(gradeNumber==0){//전체
+                            if(gradeNumber==0){
                                 if((Integer.parseInt(tmp.getCurrent())-Integer.parseInt(tmp.getEmpty()))<1) { //인원이 0명이면
                                     iterator.remove();
                                 }
                             }
-                            else {//1,2,3,4학년
+                            else {
                                 if ((Integer.parseInt(tmp.getGradeCurrent()) - Integer.parseInt(tmp.getGradeEmpty())) < 1) { //인원이 0명이면
                                     iterator.remove();
                                 }
@@ -187,10 +194,9 @@ public class Fragment_2 extends Fragment {
 
         return view;
     }
-
     public void getData(String tmpUrl) throws IOException, ExecutionException, InterruptedException {
         showProgressDialog();
-        Thread thread = new Thread() {
+        new Thread() {
             public void run(){
                 getActivity().runOnUiThread(new Runnable(){ //mainThread에서 UI변경 해야하기 때문에 큐로 넣어준다.
                     @Override
@@ -198,42 +204,34 @@ public class Fragment_2 extends Fragment {
                         //데이터 넣기
                         try {
                             classDataset = new parseData().execute(url,Integer.toString(gradeNumber)).get();
-                            System.out.println("####thread 끝####### "+classDataset.size());
                         }
                         catch (ExecutionException|InterruptedException e) { e.printStackTrace(); }
 
-                        search();//심교 영역별로 골라내기
                         //어댑터 달기
-                        mAdapter = new MyAdapter(classDataset, Integer.toString(gradeNumber));
+                        mAdapter = new MyAdapter(classDataset,Integer.toString(gradeNumber));
                         recyclerView.setAdapter(mAdapter);
                     }
                 });
                 dialog.dismiss();
             }
-        };
-        thread.start();
-
+        }.start();
     }
+
+    public void parseBasic() throws ExecutionException, InterruptedException {
+        ArrayList<ArrayList<String>> tmp;
+        tmp = new parseList().execute().get();
+        basicName = new ArrayList<String>();
+        basicNumber = new ArrayList<String>();
+        basicName.addAll(tmp.get(2));//기교 이름
+        basicNumber.addAll(tmp.get(3));//기교 번호
+        //선택 넣기
+        basicName.add(0,"선택"); basicNumber.add(0,"0");
+    }
+
     private void showProgressDialog(){
         dialog = new ProgressDialog(getActivity());
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        dialog.setMessage("강의 검색중");
+        dialog.setMessage("실시간 정보를 받아 강의 검색중입니다");
         dialog.show();
-    }
-
-    private void search(){  //심교 영역별로 골라내기
-        System.out.println("*****SEARCH*****");
-        if( (!spinnerName[0].equals(spinnerName[culturePosition]))){ //전체가 아니면 remove
-            Iterator<classData> iterator = classDataset.iterator();
-            while(iterator.hasNext()) {
-                classData tmp = iterator.next();
-                if(!tmp.getField().equals(spinnerName[culturePosition])){
-                    iterator.remove();
-                }
-            }
-        }
-
-
-
     }
 }

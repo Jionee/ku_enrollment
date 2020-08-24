@@ -1,4 +1,4 @@
-package com.example.tutorial1;
+package com.konkuk.suku;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -6,20 +6,14 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,20 +21,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.konkuk.suku.R;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.kyleduo.switchbutton.SwitchButton;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.w3c.dom.Text;
-
-import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 
@@ -207,7 +195,6 @@ public class Fragment_4 extends Fragment {
             public void onClick(View view) {
                 //새로고침버튼 누르면 갱신
                 if(classArr.size()>0){
-                    Toast.makeText(getActivity(), "새로고침을 시작합니다", Toast.LENGTH_SHORT).show();
                     ArrayList<classData> reloadArr = new ArrayList<>();
                     //parseSearch 해서 갱신해주기
                     Iterator<classData> it = classArr.iterator();

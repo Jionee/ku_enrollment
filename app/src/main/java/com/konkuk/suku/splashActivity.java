@@ -1,11 +1,12 @@
-package com.example.tutorial1;
+package com.konkuk.suku;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
 import androidx.annotation.Nullable;
+
+import com.konkuk.suku.R;
 
 public class splashActivity extends Activity {
     @Override
@@ -18,7 +19,7 @@ public class splashActivity extends Activity {
             public void run() {
                 finish();
             }
-        }, 2000);
+        }, 3000);
 
 
     }

@@ -1,4 +1,4 @@
-package com.example.tutorial1;
+package com.konkuk.suku;
 
 import android.os.AsyncTask;
 
@@ -7,8 +7,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 public class parseSearch extends AsyncTask <String,Void,classData>{
 

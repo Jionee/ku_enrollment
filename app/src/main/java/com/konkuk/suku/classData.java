@@ -1,6 +1,4 @@
-package com.example.tutorial1;
-
-import java.util.ArrayList;
+package com.konkuk.suku;
 
 public class classData {
     private String numbers;

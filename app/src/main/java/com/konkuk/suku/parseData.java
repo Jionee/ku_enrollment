@@ -1,15 +1,12 @@
-package com.example.tutorial1;
+package com.konkuk.suku;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.w3c.dom.Document;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -46,18 +43,18 @@ public class parseData extends AsyncTask <String,Void, ArrayList<classData>>{
 
         c = new classData[documentSize];
         ThreadPoolExecutor threadPoolExecutor =
-                new ThreadPoolExecutor(20, 256, 1, TimeUnit.SECONDS, new LinkedBlockingQueue(100));
+                new ThreadPoolExecutor(20, 270, 1, TimeUnit.SECONDS, new LinkedBlockingQueue(100));
 
         for (int i = 0; i < documentSize; i++) {
             Task thread = new Task(document,i,string2_value,documentSize);
             threadPoolExecutor.execute(thread);
         }
 
+
         //threadpool끝나기 기다리기
         threadPoolExecutor.shutdown();
         try {
             threadPoolExecutor.awaitTermination(20, TimeUnit.SECONDS);
-            System.out.println("threadPool 다음줄");
         } catch (InterruptedException e) { e.printStackTrace(); }
 
 
@@ -134,6 +131,13 @@ public class parseData extends AsyncTask <String,Void, ArrayList<classData>>{
             parseData.c[classSequence]=classes;
             System.out.println((classSequence+1)+"번째 과목" +element.select("td").eq(4).text()+ "로딩중");
 
+            document1 = null;
+            document2 = null;
+            document3 = null;
+            element = null;
+            element2 = null;
+            element3 = null;
+            classes = null;
 
         }//run끝
 

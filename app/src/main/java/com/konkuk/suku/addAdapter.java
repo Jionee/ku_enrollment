@@ -1,4 +1,4 @@
-package com.example.tutorial1;
+package com.konkuk.suku;
 
 import android.graphics.Color;
 import android.text.SpannableString;
@@ -6,23 +6,22 @@ import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.konkuk.suku.R;
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
-    private ArrayList<classData> classDataset;
-    private String gradeNumber;
-    private boolean isEmpty;
+import java.util.ArrayList;
+
+public class addAdapter extends RecyclerView.Adapter<addAdapter.MyViewHolder> {
+    private ArrayList<classData> classes = new ArrayList<>();
+    int gradeNumber = 0;
 
     //각 text,image등을 연결
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-
+        public TextView textview_grade;
         public TextView textView_number;
         public TextView textView_name;
         public TextView textView_professor;
@@ -32,6 +31,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
         public MyViewHolder(View v) {
             super(v);
+            textview_grade = v.findViewById((R.id.textview_grade));
             textView_number = v.findViewById((R.id.textView_number));
             textView_name = v.findViewById(R.id.textView_name);
             textView_professor = v.findViewById(R.id.textView_professor);
@@ -41,15 +41,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         }
     }
 
-    public MyAdapter(ArrayList<classData> classDataset,String gradeNumber) {
-        this.classDataset = classDataset;
+    public addAdapter(ArrayList<classData> classes,int gradeNumber) {
+        this.classes = classes;
         this.gradeNumber = gradeNumber;
     }
 
     // 각 줄 open
     @Override
-    public MyAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,int viewType) {
-        LinearLayout v = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.row_items, parent, false);
+    public addAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        LinearLayout v = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.row_add, parent, false);
         MyViewHolder vh = new MyViewHolder(v);
         return vh;
     }
@@ -57,20 +57,22 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     //데이터 세팅
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        System.out.println("어댑터 : "+position);
-        holder.textView_number.setText(classDataset.get(position).getNumbers());
-        holder.textView_name.setText(classDataset.get(position).getName().substring(0, classDataset.get(position).getName().indexOf("(")));
-        holder.textView_professor.setText(classDataset.get(position).getProfessor());
-        holder.textView_time.setText(classDataset.get(position).getTime());
+
+        holder.textView_number.setText(classes.get(position).getNumbers());
+        holder.textView_name.setText(classes.get(position).getName().substring(0, classes.get(position).getName().indexOf("(")));
+        holder.textView_professor.setText(classes.get(position).getProfessor());
+        holder.textView_time.setText(classes.get(position).getTime());
 
         int empt=0; int curr=0;
-        if(gradeNumber.equals("0")){
-            empt = Integer.parseInt(classDataset.get(position).getEmpty());
-            curr = Integer.parseInt(classDataset.get(position).getCurrent());
+        if(classes.get(position).getGradeNumber()==0){
+            empt = Integer.parseInt(classes.get(position).getEmpty());
+            curr = Integer.parseInt(classes.get(position).getCurrent());
+            holder.textview_grade.setText("전체");
         }
         else{
-            empt = Integer.parseInt(classDataset.get(position).getGradeEmpty());
-            curr = Integer.parseInt(classDataset.get(position).getGradeCurrent());
+            empt = Integer.parseInt(classes.get(position).getGradeEmpty());
+            curr = Integer.parseInt(classes.get(position).getGradeCurrent());
+            holder.textview_grade.setText(classes.get(position).getGradeNumber()+"학년");
         }
 
         holder.textView_empty.setText(Integer.toString(curr-empt));
@@ -88,6 +90,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     @Override
     public int getItemCount() {
-        return classDataset.size();
+        return classes.size();
     }
 }
