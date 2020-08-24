@@ -41,7 +41,7 @@
         <TextView
             android:layout_margin="5dp"
             android:id="@+id/textView_search"
-            android:background="@drawable/search_round"
+            android:background="@drawable/button_back"
             android:layout_width="0dp"
             android:layout_weight="0.4"
             android:layout_height="match_parent"
