@@ -63,6 +63,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         holder.textView_time.setText(classDataset.get(position).getTime());
 
         int empt=0; int curr=0;
+        if(!classDataset.get(position).getEmpty().equals("") && !classDataset.get(position).getCurrent().equals("")){
         if(gradeNumber.equals("0")){
             empt = Integer.parseInt(classDataset.get(position).getEmpty());
             curr = Integer.parseInt(classDataset.get(position).getCurrent());
@@ -71,7 +72,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             empt = Integer.parseInt(classDataset.get(position).getGradeEmpty());
             curr = Integer.parseInt(classDataset.get(position).getGradeCurrent());
         }
-
+        }
         holder.textView_empty.setText(Integer.toString(curr-empt));
         holder.textView_current.setText(Integer.toString(empt)+"/"+Integer.toString(curr));
 
