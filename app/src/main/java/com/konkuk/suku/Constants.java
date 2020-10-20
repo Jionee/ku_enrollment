@@ -1,11 +1,14 @@
 package com.konkuk.suku;
 
 public class Constants {
+    //1학기 B01011 2학기 B01012 하계계절학기 B01014 동계계절학기 B01015
+    public static final String when = "B01015";
+
     public static final String tbase = "https://kupis.konkuk.ac.kr/sugang/acd/cour/time/SeoulTimetableInfo.jsp";
-    public static final String base = "https://kupis.konkuk.ac.kr/sugang/acd/cour/time/SeoulTimetableInfo.jsp?ltYy=2020&ltShtm=B01015";
-    public static final String sbjBase = "https://kupis.konkuk.ac.kr/sugang/acd/cour/aply/CourInwonInqTime.jsp?ltYy=2020&ltShtm=B01015&sbjtId=";
-    public static final String gradeBase = "https://kupis.konkuk.ac.kr/sugang/acd/cour/aply/CourBasketInwonInq.jsp?ltYy=2020&ltShtm=B01015&fg=B&sbjtId=";
-    public static final String allCulture = "https://kupis.konkuk.ac.kr/sugang/acd/cour/time/SeoulTimetableInfo.jsp?ltYy=2020&ltShtm=B01015&pobtDiv=B04054";
+    public static final String base = "https://kupis.konkuk.ac.kr/sugang/acd/cour/time/SeoulTimetableInfo.jsp?ltYy=2020&ltShtm="+when;
+    public static final String sbjBase = "https://kupis.konkuk.ac.kr/sugang/acd/cour/aply/CourInwonInqTime.jsp?ltYy=2020&ltShtm="+when+"&sbjtId=";
+    public static final String gradeBase = "https://kupis.konkuk.ac.kr/sugang/acd/cour/aply/CourBasketInwonInq.jsp?ltYy=2020&ltShtm="+when+"&fg=B&sbjtId=";
+    public static final String allCulture = "https://kupis.konkuk.ac.kr/sugang/acd/cour/time/SeoulTimetableInfo.jsp?ltYy=2020&ltShtm="+when+"&pobtDiv=B04054";
     public static final String proffBase1 ="http://www.konkuk.ac.kr/jsp/Coll/";
     public static final String proffBase2 = "http://www.konkuk.ac.kr/jsp/Coll/coll_index.jsp";
     //parseListProff --> 수동으로 입력한 주소들 많음 (변동 가능)
