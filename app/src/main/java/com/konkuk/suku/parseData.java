@@ -68,8 +68,8 @@ public class parseData extends AsyncTask <String,Void, ArrayList<classData>>{
     }
 
     private static class Task implements Runnable {
-        String sbjBase = "https://kupis.konkuk.ac.kr/sugang/acd/cour/aply/CourInwonInqTime.jsp?ltYy=2020&ltShtm=B01015&sbjtId=";
-        String gradeBase = "https://kupis.konkuk.ac.kr/sugang/acd/cour/aply/CourBasketInwonInq.jsp?ltYy=2020&ltShtm=B01015&fg=B&sbjtId=";
+       /* String sbjBase = "https://kupis.konkuk.ac.kr/sugang/acd/cour/aply/CourInwonInqTime.jsp?ltYy=2020&ltShtm=B01015&sbjtId=";
+        String gradeBase = "https://kupis.konkuk.ac.kr/sugang/acd/cour/aply/CourBasketInwonInq.jsp?ltYy=2020&ltShtm=B01015&fg=B&sbjtId=";*/
         int classSequence = 0;
         Elements document1 = null;
         Elements document2 = null;
@@ -101,8 +101,8 @@ public class parseData extends AsyncTask <String,Void, ArrayList<classData>>{
 
             //남은 인원, 전체 인원 가져오기
             String classNum = element.select("td").eq(3).text();
-            String emptyUrl = sbjBase+classNum;
-            String gradeEmptyUrl = gradeBase+classNum+"&promShyr=";
+            String emptyUrl = Constants.sbjBase+classNum;
+            String gradeEmptyUrl = Constants.gradeBase+classNum+"&promShyr=";
 
             try { //전체 현재인원,남은인원
                 document2 = Jsoup.connect(emptyUrl).get().select("body");

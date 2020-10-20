@@ -32,10 +32,10 @@ public class Fragment_3 extends Fragment {
 
     //깃 브랜치 테스트
     //1학기 B01011 2학기 B01012 하계계절학기 B01014 동계계절학기 B01015
-    String base = "https://kupis.konkuk.ac.kr/sugang/acd/cour/time/SeoulTimetableInfo.jsp?ltYy=2020&ltShtm=B01015";
-    String pobtDiv = "&pobtDiv="; // B04044:전필, B04045:전선, B04061:지필, B0404P:기교, B04054:심교, B04047:교직, B04046:일선, B04054:심교, ALL:전체
+    //String base = "https://kupis.konkuk.ac.kr/sugang/acd/cour/time/SeoulTimetableInfo.jsp?ltYy=2020&ltShtm=B01015";
+    /*String pobtDiv = "&pobtDiv="; // B04044:전필, B04045:전선, B04061:지필, B0404P:기교, B04054:심교, B04047:교직, B04046:일선, B04054:심교, ALL:전체
     String cultCorsFld = "&cultCorsFld="; //기교선택
-    String openSust = "&openSust="; //학과
+    String openSust = "&openSust="; //학과*/
 
     private View view;
     private ArrayList<classData> classDataset; //수업정보
@@ -114,7 +114,7 @@ public class Fragment_3 extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 basicNumber.set(0,"1");
                 String basicNum = basicNumber.get(position);
-                url = base+pobtDiv+"B0404P"+cultCorsFld+basicNum;
+                url = Constants.base + Constants.pobtDiv + Constants.giGyo + Constants.cultCorsFld + basicNum;
             }
 
             @Override

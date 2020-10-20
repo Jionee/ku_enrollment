@@ -16,12 +16,12 @@ public class parseListProff extends AsyncTask <String,Void, ArrayList<ArrayList<
 
     protected ArrayList<ArrayList<String>> doInBackground(String... strings) {
 
-        String base = "http://www.konkuk.ac.kr/jsp/Coll/coll_index.jsp";
+        //String base = "http://www.konkuk.ac.kr/jsp/Coll/coll_index.jsp";
 
 
         Elements document = null;
         try {
-            document = Jsoup.connect(base).get().select(".coll_index");
+            document = Jsoup.connect(Constants.proffBase2).get().select(".coll_index");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -31,7 +31,7 @@ public class parseListProff extends AsyncTask <String,Void, ArrayList<ArrayList<
             Elements elements = document.get(i).select("li a");
             for(int m=0;m<elements.size();m++){
                 majorName.add(elements.eq(m).text());
-                majorUrl.add("http://www.konkuk.ac.kr/jsp/Coll/" + elements.eq(m).attr("href"));
+                majorUrl.add(Constants.proffBase1 + elements.eq(m).attr("href"));
             }
         }
 

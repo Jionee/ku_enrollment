@@ -19,11 +19,11 @@ public class parseList extends AsyncTask <String,Void, ArrayList<ArrayList<Strin
 
     protected ArrayList<ArrayList<String>> doInBackground(String... strings) {
 
-        String base = "https://kupis.konkuk.ac.kr/sugang/acd/cour/time/SeoulTimetableInfo.jsp";
+        //String base = "https://kupis.konkuk.ac.kr/sugang/acd/cour/time/SeoulTimetableInfo.jsp";
 
         Elements document = null;
         try {
-            document = Jsoup.connect(base).get().select(".ctl_enabled");
+            document = Jsoup.connect(Constants.tbase).get().select(".ctl_enabled");
         } catch (IOException e) {
             e.printStackTrace();
         }

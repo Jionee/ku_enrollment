@@ -18,16 +18,16 @@ public class parseSearch extends AsyncTask <String,Void,classData>{
     private String tmp= null;
 
     protected classData doInBackground(String... strings) {
-        String base = "https://kupis.konkuk.ac.kr/sugang/acd/cour/time/SeoulTimetableInfo.jsp?ltYy=2020&ltShtm=B01015&sbjtId=";
+        /*String base = "https://kupis.konkuk.ac.kr/sugang/acd/cour/time/SeoulTimetableInfo.jsp?ltYy=2020&ltShtm=B01015&sbjtId=";
         String sbjBase = "https://kupis.konkuk.ac.kr/sugang/acd/cour/aply/CourInwonInqTime.jsp?ltYy=2020&ltShtm=B01015&sbjtId=";
-        String gradeBase = "https://kupis.konkuk.ac.kr/sugang/acd/cour/aply/CourBasketInwonInq.jsp?ltYy=2020&ltShtm=B01015&fg=B&sbjtId=";
+        String gradeBase = "https://kupis.konkuk.ac.kr/sugang/acd/cour/aply/CourBasketInwonInq.jsp?ltYy=2020&ltShtm=B01015&fg=B&sbjtId=";*/
         classPlus = strings[0]; //********넣어주기
         gradePlus = strings[1];
         String basket = null;
 
         Elements document = null;
         try {
-            document = Jsoup.connect(base+classPlus).get().select(".table_bg_white");
+            document = Jsoup.connect(Constants.base + Constants.sbjtId + classPlus).get().select(".table_bg_white");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -40,8 +40,8 @@ public class parseSearch extends AsyncTask <String,Void,classData>{
 
         //남은 인원, 전체 인원 가져오기
         String classNum = element.select("td").eq(3).text();
-        String emptyUrl = sbjBase+classNum;
-        String gradeEmptyUrl = gradeBase+classNum+"&promShyr=";
+        String emptyUrl = Constants.sbjBase + classNum;
+        String gradeEmptyUrl = Constants.gradeBase + classNum+"&promShyr=";
 
         try { //전체 현재인원,남은인원
             document2 = Jsoup.connect(emptyUrl).get().select("body");

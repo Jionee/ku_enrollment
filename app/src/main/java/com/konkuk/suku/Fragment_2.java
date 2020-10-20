@@ -28,11 +28,11 @@ import java.util.concurrent.ExecutionException;
 
 public class Fragment_2 extends Fragment {
 
-    String url = "https://kupis.konkuk.ac.kr/sugang/acd/cour/time/SeoulTimetableInfo.jsp?ltYy=2020&ltShtm=B01012&pobtDiv=B04054";
+    String url = Constants.allCulture;
 
     //1학기 B01011 2학기 B01012 하계계절학기 B01014 동계계절학기 B01015
-    String base = "https://kupis.konkuk.ac.kr/sugang/acd/cour/time/SeoulTimetableInfo.jsp?ltYy=2020&ltShtm=B01015";
-    String pobtDiv = "&pobtDiv="; // B04044:전필, B04045:전선, B04061:지필, B0404P:기교, B04054:심교, B04047:교직, B04046:일선, B04054:심교, ALL:전체
+    /*String base = "https://kupis.konkuk.ac.kr/sugang/acd/cour/time/SeoulTimetableInfo.jsp?ltYy=2020&ltShtm=B01015";
+    String pobtDiv = "&pobtDiv=";*/ // B04044:전필, B04045:전선, B04061:지필, B0404P:기교, B04054:심교, B04047:교직, B04046:일선, B04054:심교, ALL:전체
 
     private View view;
     private ArrayList<classData> classDataset; //수업정보
@@ -109,7 +109,7 @@ public class Fragment_2 extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //0:전체 1: 학문소양및인성함양 2:글로벌인재양성 3:사고력증진
                 culturePosition=position;
-                url = base+pobtDiv+"B04054";
+                url = Constants.base + Constants.pobtDiv + Constants.simGyo; //심교
             }
 
             @Override
