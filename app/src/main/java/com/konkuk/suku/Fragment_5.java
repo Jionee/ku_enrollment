@@ -71,7 +71,8 @@ public class Fragment_5 extends Fragment {
 
                     if(majorPosition!=0){
 
-                        if(33 < majorPosition && majorPosition < 50){ //창띄우기
+                        //parseListProff 에서 변경시 여기 숫자 변경하기
+                        if(30 < majorPosition && majorPosition < 47){ //창띄우기
                             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                             startActivity(intent);
                         }
