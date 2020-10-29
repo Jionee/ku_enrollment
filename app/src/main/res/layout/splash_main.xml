@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.konkuk.suku.MainActivity"
-    android:background="#527404">
+    android:background="#4caf50">
 
    <!-- <LinearLayout
         android:layout_width="150dp"
@@ -15,47 +15,32 @@
         android:layout_marginTop="30dp"
         android:layout_marginLeft="130dp"
         android:background="@drawable/basket" />-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/notosans"
+        android:textStyle="normal"
+        android:textSize="13sp"
+        android:textColor="#ffffff"
+        android:lineSpacingExtra="6sp"
+        android:layout_gravity="center"
+        android:layout_marginTop="230dp"
+        tools:text="남은인원, 강의 검색, 추가신청까지!"
+        />
 
     <TextView
-        android:layout_marginTop="120dp"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:text="수KU"
+        android:layout_marginTop="10dp"
+        android:layout_width="182dp"
+        android:layout_height="69dp"
+        android:text=""
         android:fontFamily="@font/golmokgil"
         android:textColor="#ffffff"
         android:textSize="70sp"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:background="@drawable/splash_suku"/>
 
 
-    <TextView
-    android:layout_width="match_parent"
-    android:layout_height="50dp"
-    android:textColor="#e2f0c3"
-    android:text="남은인원, 강의 검색, 추가신청까지 !"
-    android:textSize="20sp"
-    android:fontFamily="@font/golmokgil"
-    android:gravity="center"/>
 
-    <TextView
-        android:layout_marginTop="180dp"
-        android:layout_marginLeft="230dp"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:text="2020년도 2학기"
-        android:textSize="13sp"
-        android:textColor="#e2f0c3"
-        android:fontFamily="@font/golmokgil"
-        android:gravity="center"/>
-
-    <TextView
-
-        android:layout_marginLeft="170dp"
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:textColor="#e2f0c3"
-        android:text="문의 : dnjswldb98@konkuk.ac.kr"
-        android:textSize="13sp"
-        android:fontFamily="@font/golmokgil"
-        android:gravity="center"/>
 
 </LinearLayout>

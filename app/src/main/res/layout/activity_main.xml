@@ -7,17 +7,35 @@
     android:orientation="vertical"
     tools:context="com.konkuk.suku.MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:text="수KU"
-        android:textSize="30dp"
-        android:fontFamily="@font/golmokgil"
-        android:textColor="#eefbe1"
-        android:gravity="center"
-        android:layout_gravity="center"
-        android:background="@drawable/main_background"
-        tools:ignore="Suspicious0dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="80.5dp"
+            android:layout_height="30dp"
+            android:background="@drawable/main_suku"
+            android:layout_marginTop="48dp"
+            android:layout_marginLeft="31dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:fontFamily="@font/notosans"
+            android:textStyle="normal"
+            android:textSize="13sp"
+            android:textColor="#4caf50"
+            android:lineSpacingExtra="6sp"
+            tools:text="2021년도 1학기"
+            android:layout_marginLeft="200dp"
+            android:layout_marginTop="60dp"
+            />
+
+
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,7 +49,7 @@
             app:tabGravity="center"
             app:tabMode="fixed"
             app:tabTextColor="#000000"
-            app:tabSelectedTextColor="#17880e"
+            app:tabSelectedTextColor="#4caf50"
             app:tabIndicatorColor="#58b33c"/>
 
     </LinearLayout>
