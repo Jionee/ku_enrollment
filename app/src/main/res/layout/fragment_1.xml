@@ -60,16 +60,18 @@
             app:tabGravity="center"
             app:tabMode="fixed"
             app:tabTextColor="#bbbbbb"
-            app:tabSelectedTextColor="#FFFFFF"
+            app:tabSelectedTextColor="@color/tabTextSelected"
             app:tabIndicatorColor="#00000000"
             app:tabTextAppearance="@style/tab_text"
-            android:background="@drawable/tab_background"/>
+            android:background="@drawable/tab_background"
+            />
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.2"
             android:orientation="vertical">
+
 
             <com.kyleduo.switchbutton.SwitchButton
                 android:id="@+id/sb_use_listener"
@@ -97,13 +99,37 @@
 
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/my_recycler_view"
-        android:scrollbars="vertical"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="9"
-        android:layout_margin="3dp"/>
+        android:layout_weight="9">
+
+
+
+        <ImageButton
+            android:id="@+id/filter_btn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/filter_img"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:background="#00000000"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/my_recycler_view"
+            android:scrollbars="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="3dp"/>
+
+    </RelativeLayout>
+
+
+
+
 
 
 

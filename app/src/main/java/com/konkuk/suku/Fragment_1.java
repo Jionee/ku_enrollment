@@ -1,22 +1,29 @@
 package com.konkuk.suku;
 
 import android.app.ProgressDialog;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.konkuk.suku.R;
 import com.google.android.material.tabs.TabLayout;
 import com.kyleduo.switchbutton.SwitchButton;
@@ -27,7 +34,7 @@ import java.util.Iterator;
 import java.util.concurrent.ExecutionException;
 
 
-public class Fragment_1 extends Fragment {
+public class Fragment_1 extends Fragment{
     String url = null;
 
     //1학기 B01011 2학기 B01012 하계계절학기 B01014 동계계절학기 B01015
@@ -48,6 +55,7 @@ public class Fragment_1 extends Fragment {
     private int gradeNumber=0;
     private boolean isEmpty=false;
     private SwitchButton switchButton;
+    private ImageButton filter_btn;
 
     private Spinner spinner;
     private ArrayList<String> majorName = new ArrayList<String>();
@@ -56,6 +64,7 @@ public class Fragment_1 extends Fragment {
     private boolean isSearch = false;
 
     ProgressDialog dialog;
+
 
     //어댑터에 주기적으로 교체
     public static Fragment_1 newInstance(){
@@ -86,6 +95,8 @@ public class Fragment_1 extends Fragment {
                     try { getData(url); } catch (ExecutionException | InterruptedException | IOException e) { e.printStackTrace(); }
                     isSearch=true;
                     switchButton.setChecked(false);//전체강의로 스위치
+                    filter_btn.bringToFront();
+                    filter_btn.setSelected(false);
                 }
                 else{ //학과 선택이 안됐으면
                     Toast.makeText(getActivity(), "학과를 선택하세요", Toast.LENGTH_SHORT).show();
@@ -133,18 +144,20 @@ public class Fragment_1 extends Fragment {
            @Override //하단 탭 리스너 설정
            public void onTabSelected(TabLayout.Tab tab) {
                // tab의 상태가 선택 상태로 변경.
-               gradeNumber = tab.getPosition() ;
+               gradeNumber = tab.getPosition();
            }
            public void onTabUnselected(TabLayout.Tab tab) {
-               // tab의 상태가 선택 상태로 변경.
+               // tab의 상태가 선택 X 상태로 변경.
            }
            public void onTabReselected(TabLayout.Tab tab) {
                // 이미 선택된 tab이 다시
            }
        });
 
+
         //남는 강의 스위치 설정
         final TextView optionState = (TextView)view.findViewById(R.id.textView_switch);
+
 
         // 스위치 버튼입니다.
         switchButton = (SwitchButton) view.findViewById(R.id.sb_use_listener);
@@ -188,6 +201,49 @@ public class Fragment_1 extends Fragment {
                     System.out.println("스위치 버튼 전에 검색 버튼을 누르십시오");
                     Toast.makeText(getActivity(), "빈 강의를 확인하려면 먼저 강의를 검색하세요", Toast.LENGTH_SHORT).show();
                     switchButton.setChecked(false);
+                }
+            }
+        });
+
+        filter_btn = view.findViewById(R.id.filter_btn);
+        filter_btn.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                if(isSearch){
+                    if (filter_btn.isSelected()){
+                        isEmpty=true;
+                        optionState.setText("남은 강의만");
+                        ArrayList<classData> cloneDataset = new ArrayList<classData>();
+                        cloneDataset.addAll(classDataset);
+                        Iterator<classData> iterator = cloneDataset.iterator();
+                        while(iterator.hasNext()){
+                            classData tmp = iterator.next();
+                            if(gradeNumber==0){
+                                if((Integer.parseInt(tmp.getCurrent())-Integer.parseInt(tmp.getEmpty()))<1) { //인원이 0명이면
+                                    iterator.remove();
+                                }
+                            }
+                            else {
+                                if ((Integer.parseInt(tmp.getGradeCurrent()) - Integer.parseInt(tmp.getGradeEmpty())) < 1) { //인원이 0명이면
+                                    iterator.remove();
+                                }
+                            }
+                            //어댑터 달기
+                            mAdapter = new MyAdapter(cloneDataset,Integer.toString(gradeNumber));
+                        }
+                    }
+                    else{ //전체 강의
+                        isEmpty=false;
+                        optionState.setText("전체 강의");
+                        //어댑터 달기
+                        mAdapter = new MyAdapter(classDataset,Integer.toString(gradeNumber));
+                    }
+                    recyclerView.setAdapter(mAdapter);
+                }
+                else{
+                    System.out.println("스위치 버튼 전에 검색 버튼을 누르십시오");
+                    Toast.makeText(getActivity(), "빈 강의를 확인하려면 먼저 강의를 검색하세요", Toast.LENGTH_SHORT).show();
+                    filter_btn.setSelected(false);
                 }
             }
         });
@@ -236,4 +292,6 @@ public class Fragment_1 extends Fragment {
         dialog.setMessage("실시간 정보를 받아 강의 검색중입니다");
         dialog.show();
     }
+
+
 }
