@@ -28,9 +28,10 @@
             android:textSize="13sp"
             android:textColor="#4caf50"
             android:lineSpacingExtra="6sp"
-            tools:text="2021년도 1학기"
-            android:layout_marginLeft="200dp"
+            android:text="2021년도 1학기"
             android:layout_marginTop="60dp"
+            android:layout_marginRight="20dp"
+            android:gravity="right"
             />
 
 
@@ -48,9 +49,11 @@
             android:layout_height="match_parent"
             app:tabGravity="center"
             app:tabMode="fixed"
-            app:tabTextColor="#000000"
+            app:tabTextColor="#bbbbbb"
             app:tabSelectedTextColor="#4caf50"
-            app:tabIndicatorColor="#58b33c"/>
+            app:tabIndicatorColor="#00000000"
+            app:tabTextAppearance="@style/tab_text"
+            />
 
     </LinearLayout>
 

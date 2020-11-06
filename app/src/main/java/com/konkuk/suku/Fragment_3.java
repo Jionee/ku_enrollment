@@ -83,7 +83,7 @@ public class Fragment_3 extends Fragment {
         textview_search.setOnClickListener(new TextView.OnClickListener(){
             @Override
             public void onClick(View view) {
-                if(!basicNumber.get(0).equals("0")){ //학과 선택이 안됐으면
+                if(!basicNumber.get(0).equals("0")){ //학과 선택이 됐으면
                     try { getData(url); } catch (ExecutionException | InterruptedException | IOException e) { e.printStackTrace(); }
                     isSearch=true;
                     switchButton.setChecked(false);//전체강의로 스위치
@@ -206,12 +206,21 @@ public class Fragment_3 extends Fragment {
                         //데이터 넣기
                         try {
                             classDataset = new parseData().execute(url,Integer.toString(gradeNumber)).get();
+                            if(classDataset.get(0).getName().equals("")){
+                                classDataset.remove(0);
+                            }
                         }
                         catch (ExecutionException|InterruptedException e) { e.printStackTrace(); }
 
-                        //어댑터 달기
-                        mAdapter = new MyAdapter(classDataset,Integer.toString(gradeNumber));
-                        recyclerView.setAdapter(mAdapter);
+                        if(classDataset.size()>0){
+                            //어댑터 달기
+                            mAdapter = new MyAdapter(classDataset,Integer.toString(gradeNumber));
+                            recyclerView.setAdapter(mAdapter);
+                        }
+                        else{
+                            Toast.makeText(getActivity(), "검색 내역이 존재하지 않습니다.", Toast.LENGTH_SHORT).show();
+                        }
+
                     }
                 });
                 dialog.dismiss();

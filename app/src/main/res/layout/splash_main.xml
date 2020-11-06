@@ -18,15 +18,15 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="남은인원, 강의 검색, 추가신청까지!"
         android:fontFamily="@font/notosans"
+        android:textColor="#ffffff"
         android:textStyle="normal"
         android:textSize="13sp"
-        android:textColor="#ffffff"
         android:lineSpacingExtra="6sp"
         android:layout_gravity="center"
-        android:layout_marginTop="230dp"
-        tools:text="남은인원, 강의 검색, 추가신청까지!"
-        />
+        android:layout_marginTop="230dp"/>
+
 
     <TextView
         android:layout_marginTop="10dp"

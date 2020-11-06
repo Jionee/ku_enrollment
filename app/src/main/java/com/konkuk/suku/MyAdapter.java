@@ -3,6 +3,7 @@ package com.konkuk.suku;
 import android.graphics.Color;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,34 +58,42 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     //데이터 세팅
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        holder.textView_number.setText(classDataset.get(position).getNumbers());
-        holder.textView_name.setText(classDataset.get(position).getName().substring(0, classDataset.get(position).getName().indexOf("(")));
-        holder.textView_professor.setText(classDataset.get(position).getProfessor());
-        holder.textView_time.setText(classDataset.get(position).getTime());
 
-        int empt=0; int curr=0;
-        if(!classDataset.get(position).getEmpty().equals("") && !classDataset.get(position).getCurrent().equals("")){
-        if(gradeNumber.equals("0")){
-            empt = Integer.parseInt(classDataset.get(position).getEmpty());
-            curr = Integer.parseInt(classDataset.get(position).getCurrent());
-        }
-        else{
-            empt = Integer.parseInt(classDataset.get(position).getGradeEmpty());
-            curr = Integer.parseInt(classDataset.get(position).getGradeCurrent());
-        }
-        }
-        holder.textView_empty.setText(Integer.toString(curr-empt));
-        holder.textView_current.setText(Integer.toString(empt)+"/"+Integer.toString(curr));
+            holder.textView_number.setText(classDataset.get(position).getNumbers());
+            holder.textView_name.setText(classDataset.get(position).getName().substring(0, classDataset.get(position).getName().indexOf("(")));
+            holder.textView_professor.setText(classDataset.get(position).getProfessor());
+            holder.textView_time.setText(classDataset.get(position).getTime());
 
-        SpannableString spannableString = new SpannableString(Integer.toString(curr-empt));
-        if(curr-empt < 1){ //0이하면 빨간색으로
-            spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#d41611")), 0, spannableString.length(), 0);
-        }
-        else{ //남으면 초록색
-            spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#3c701c")), 0, spannableString.length(), 0);
-        }
-        holder.textView_empty.setText(spannableString);
+            int empt=0; int curr=0;
+            if(!classDataset.get(position).getEmpty().equals("") && !classDataset.get(position).getCurrent().equals("")){
+                if(gradeNumber.equals("0")){
+                    empt = Integer.parseInt(classDataset.get(position).getEmpty().trim());
+                    curr = Integer.parseInt(classDataset.get(position).getCurrent().trim());
+                }
+                else{
+                    try{
+                        empt = Integer.parseInt(classDataset.get(position).getGradeEmpty().trim());
+                        curr = Integer.parseInt(classDataset.get(position).getGradeCurrent().trim());
+                    }catch(NumberFormatException e) {
+                        empt=0;
+                        curr=0;
+                    }
+
+                }
+            }
+            holder.textView_empty.setText(Integer.toString(curr-empt));
+            holder.textView_current.setText(Integer.toString(empt)+"/"+Integer.toString(curr));
+
+            SpannableString spannableString = new SpannableString(Integer.toString(curr-empt));
+            if(curr-empt < 1){ //0이하면 빨간색으로
+                spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#d41611")), 0, spannableString.length(), 0);
+            }
+            else{ //남으면 초록색
+                spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#3c701c")), 0, spannableString.length(), 0);
+            }
+            holder.textView_empty.setText(spannableString);
     }
+
 
     @Override
     public int getItemCount() {
