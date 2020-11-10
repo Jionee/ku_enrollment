@@ -82,7 +82,10 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textView_switch"
-                android:gravity="center"/>
+                android:gravity="center"
+                app:kswThumbDrawable="@drawable/switch_thumb_selector"
+                app:kswBackDrawable="@drawable/switch_track_selector"
+                />
 
             <TextView
                 android:id="@+id/textView_switch"
@@ -110,12 +113,13 @@
             android:id="@+id/filter_btn"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/filter_img"
+            android:src="@drawable/filter_img_customed"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:layout_marginRight="20dp"
             android:layout_marginTop="20dp"
             android:background="#00000000"
+            android:visibility="gone"
             />
 
         <androidx.recyclerview.widget.RecyclerView

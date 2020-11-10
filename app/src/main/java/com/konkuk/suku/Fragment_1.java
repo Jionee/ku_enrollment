@@ -2,6 +2,7 @@ package com.konkuk.suku;
 
 import android.app.ProgressDialog;
 import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -205,12 +206,14 @@ public class Fragment_1 extends Fragment{
             }
         });
 
-        filter_btn = view.findViewById(R.id.filter_btn);
-        filter_btn.setOnClickListener(new Button.OnClickListener(){
+        filter_btn = (ImageButton) view.findViewById(R.id.filter_btn);
+        filter_btn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
+                Toast.makeText(getActivity(), "onclick filter_btn", Toast.LENGTH_SHORT).show();
                 if(isSearch){
-                    if (filter_btn.isSelected()){
+                    if (!filter_btn.isSelected()){
+                        filter_btn.setSelected(true);
                         isEmpty=true;
                         optionState.setText("남은 강의만");
                         ArrayList<classData> cloneDataset = new ArrayList<classData>();
@@ -233,6 +236,7 @@ public class Fragment_1 extends Fragment{
                         }
                     }
                     else{ //전체 강의
+                        filter_btn.setSelected(false);
                         isEmpty=false;
                         optionState.setText("전체 강의");
                         //어댑터 달기
@@ -247,6 +251,8 @@ public class Fragment_1 extends Fragment{
                 }
             }
         });
+
+
         return view;
     }
 
@@ -261,12 +267,21 @@ public class Fragment_1 extends Fragment{
                         //데이터 넣기
                         try {
                             classDataset = new parseData().execute(url,Integer.toString(gradeNumber)).get();
+                            if(classDataset.get(0).getName().equals("")){
+                                classDataset.remove(0);
+                            }
                         }
                         catch (ExecutionException|InterruptedException e) { e.printStackTrace(); }
 
-                        //어댑터 달기
-                        mAdapter = new MyAdapter(classDataset,Integer.toString(gradeNumber));
-                        recyclerView.setAdapter(mAdapter);
+                        if(classDataset.size()>0){
+                            //어댑터 달기
+                            mAdapter = new MyAdapter(classDataset,Integer.toString(gradeNumber));
+                            recyclerView.setAdapter(mAdapter);
+                        }
+                        else{
+                            Toast.makeText(getActivity(), "검색 내역이 존재하지 않습니다.", Toast.LENGTH_SHORT).show();
+                        }
+
                     }
                 });
                 dialog.dismiss();

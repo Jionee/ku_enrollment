@@ -98,7 +98,6 @@ public class Fragment_3 extends Fragment {
 
         //스피너
         spinner = (Spinner) view.findViewById(R.id.spinner_basic);
-        final TextView t = view.findViewById(R.id.testView_basic);
         //기교 이름 정보 받아오기
         try { parseBasic(); } catch (ExecutionException | InterruptedException e) { e.printStackTrace(); }
 

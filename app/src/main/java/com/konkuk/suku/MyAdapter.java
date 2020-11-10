@@ -20,6 +20,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     private ArrayList<classData> classDataset;
     private String gradeNumber;
     private boolean isEmpty;
+    public LinearLayout itemLayout;
 
     //각 text,image등을 연결
     public static class MyViewHolder extends RecyclerView.ViewHolder {
@@ -39,6 +40,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             textView_time = v.findViewById(R.id.textView_time);
             textView_empty = v.findViewById(R.id.textView_empty);
             textView_current = v.findViewById(R.id.textView_current);
+
         }
     }
 
@@ -52,6 +54,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     public MyAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,int viewType) {
         LinearLayout v = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.row_items, parent, false);
         MyViewHolder vh = new MyViewHolder(v);
+        itemLayout = v.findViewById(R.id.layoutItem);
         return vh;
     }
 
@@ -86,11 +89,19 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
             SpannableString spannableString = new SpannableString(Integer.toString(curr-empt));
             if(curr-empt < 1){ //0이하면 빨간색으로
-                spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#d41611")), 0, spannableString.length(), 0);
+                spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#595959")), 0, spannableString.length(), 0);
             }
             else{ //남으면 초록색
                 spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#3c701c")), 0, spannableString.length(), 0);
             }
+            if(curr-empt<=80){
+                itemLayout.setSelected(false); //자리있음(초록색)
+            }
+            else{
+                spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#595959")), 0, spannableString.length(), 0);
+                itemLayout.setSelected(true); //자리없음
+            }
+
             holder.textView_empty.setText(spannableString);
     }
 
