@@ -2,10 +2,8 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_focused="false" android:state_pressed="false">
         <shape>
-            <solid android:color="#FFFFFF"/>
-            <stroke android:color="@color/colorGray"
-                android:width="1dp"/>
-            <corners android:radius="10dp" />
+            <solid android:color="@color/tabSelected"/>
+            <corners android:radius="50dp" />
         </shape>
     </item>
 </selector>

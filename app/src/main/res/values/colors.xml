@@ -9,4 +9,6 @@
     <color name="itemback_enough">#f5fcf5</color>
     <color name="itemback_not_enough">#ffffff</color>
     <color name="itemText">#595959</color>
+    <color name="search_blank">#f9f9f9</color>
+    <color name="empty_red">#e0704e</color>
 </resources>

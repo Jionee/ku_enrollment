@@ -13,7 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -189,10 +191,11 @@ public class Fragment_4 extends Fragment {
         });
 
         //새로고침버튼
-        TextView textview_reload = view.findViewById(R.id.textview_reload);
-        textview_reload.setOnClickListener(new TextView.OnClickListener(){
+        final Button textview_reload = view.findViewById(R.id.textview_reload);
+        textview_reload.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View view) {
+
                 //새로고침버튼 누르면 갱신
                 if(classArr.size()>0){
                     ArrayList<classData> reloadArr = new ArrayList<>();
@@ -208,11 +211,13 @@ public class Fragment_4 extends Fragment {
                     classArr = new ArrayList<>();
                     classArr.addAll(reloadArr);
 
+                    Toast.makeText(getActivity(), "새로 고침 완료", Toast.LENGTH_SHORT).show();
                     mAdapter = new addAdapter(classArr,gradeNumber);
                     recyclerView.setAdapter(mAdapter);
                 }
                 else{ Toast.makeText(getActivity(), "강의를 먼저 추가 해주세요", Toast.LENGTH_SHORT).show(); }
             }
+
         });
 
 
@@ -289,10 +294,10 @@ public class Fragment_4 extends Fragment {
 
         SpannableString spannableString = new SpannableString(Integer.toString(curr-empt));
         if(curr-empt < 1){ //0이하면 빨간색으로
-            spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#d41611")), 0, spannableString.length(), 0);
+            spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#e0704e")), 0, spannableString.length(), 0);
         }
         else{ //남으면 초록색
-            spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#3c701c")), 0, spannableString.length(), 0);
+            spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#4caf50")), 0, spannableString.length(), 0);
         }
         textView_empty.setText(spannableString); //남은인원
     }

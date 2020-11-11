@@ -17,59 +17,63 @@
 
         <TextView
             android:id="@+id/testView_search"
-            android:layout_width="180dp"
+            android:layout_width="20dp"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:gravity="center"
             android:text="과목 번호"
-            android:layout_marginLeft="20dp"
-            android:textSize="16sp" />
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="10dp"
+            android:textSize="15sp"
+            android:textColor="@color/tabSelected"
+            android:textStyle="bold"/>
 
         <EditText
             android:id="@+id/editText"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="4"
+            android:layout_height="34dp"
+            android:layout_gravity="center"
             android:maxLength="4"
             android:ems="8"
-            android:digits="0123456789"/>
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:orientation="horizontal">
-
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/layout_tab"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            app:tabGravity="center"
-            app:tabMode="fixed"
-            app:tabTextColor="#000000"
-            app:tabSelectedTextColor="#17880e"
-            app:tabIndicatorColor="#58b33c"/>
+            android:digits="0123456789"
+            android:backgroundTint="@color/tabSelected"/>
 
         <TextView
-            android:layout_margin="5dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="10dp"
             android:id="@+id/textView_search"
-            android:background="@drawable/button_back"
-            android:layout_width="0dp"
-            android:layout_weight="0.25"
-            android:layout_height="match_parent"
-            android:text="검색"
+            android:background="@drawable/search_btn"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:textColor="#FFFFFF"
             android:fontFamily="@font/golmokgil"
             android:textSize="16sp"
-            android:gravity="center"
             android:layout_gravity="center"
             />
 
     </LinearLayout>
 
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/layout_tab"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            app:tabGravity="center"
+            app:tabMode="fixed"
+            app:tabTextColor="#bbbbbb"
+            app:tabSelectedTextColor="@color/tabTextSelected"
+            app:tabIndicatorColor="#00000000"
+            app:tabTextAppearance="@style/tab_text"
+            android:background="@drawable/tab_background"
+            android:layout_marginBottom="10dp"/>
+
+
     <!--전체레이아웃-->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="90dp"
+        android:layout_height="250dp"
         android:orientation="vertical"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
@@ -83,6 +87,33 @@
             android:orientation="horizontal">
             <LinearLayout
                 android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="5dp">
+                <TextView
+                    android:id="@+id/textview_grade"
+                    android:layout_width="52dp"
+                    android:layout_height="22dp"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:textColor="#ffffff"
+                    android:text=" 1학년 "
+                    android:background="@drawable/search_text_back"/>
+                <TextView
+                    android:id="@+id/textView_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="22dp"
+                    android:gravity="center"
+                    android:textSize="15sp"
+                    android:text="1515"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="3.6"
                 android:orientation="vertical">
@@ -93,8 +124,22 @@
                     android:layout_weight="1"
                     android:textSize="13sp"
                     android:textStyle="bold"
-                    android:textColor="#3c701c"
-                    android:gravity="center"/>
+                    android:textColor="@color/itemText"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="건학정신과 대학생활(김시월)"
+                    android:layout_marginTop="20dp"/>
+
+                <TextView
+                    android:id="@+id/textview_pf_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textSize="13sp"
+                    android:text="홍길동"
+                    android:textColor="@color/itemText"
+                    />
 
                     <TextView
                         android:id="@+id/textview_time"
@@ -102,31 +147,15 @@
                         android:layout_height="0dp"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:textSize="13sp"/>
+                        android:textSize="10sp"
+                        android:text="월 07-09(온라인(녹화)), 수 07-09(온라인(녹화))"
+                        android:textColor="@color/itemText"
+                        android:layout_marginBottom="15dp"
+                        />
 
 
             </LinearLayout>
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical">
-                <TextView
-                    android:id="@+id/textview_grade"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:textColor="#3c3c3c"
-                    android:background="#e3dcbe"/>
-                <TextView
-                    android:id="@+id/textView_number"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:gravity="center"/>
-            </LinearLayout>
+
 
         </LinearLayout>
         <!--<TextView
@@ -140,7 +169,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.7"
+            android:layout_weight="0.3"
             android:orientation="horizontal">
             <TextView
                 android:id="@+id/textview_1"
@@ -149,6 +178,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:textSize="13sp"
+                android:text="수강바구니"
+                android:textColor="@color/itemText"
                 />
             <TextView
                 android:id="@+id/textview_2"
@@ -157,6 +188,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:textSize="13sp"
+                android:text="전체인원"
+                android:textColor="@color/itemText"
                 />
             <TextView
                 android:id="@+id/textview_3"
@@ -165,6 +198,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:textSize="13sp"
+                android:text="현재 신청 인원"
+                android:textColor="@color/itemText"
                 />
             <TextView
                 android:id="@+id/textview_4"
@@ -173,100 +208,125 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:textSize="13sp"
+                android:text="남은인원"
+                android:textColor="@color/itemText"
                 />
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.7"
+            android:layout_weight="0.5"
             android:orientation="horizontal">
             <TextView
                 android:id="@+id/textview_basket"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:text="1232"
+                android:textColor="@color/itemText"/>
             <TextView
                 android:id="@+id/textview_entire"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:text="500"
+                android:textColor="@color/itemText"/>
             <TextView
                 android:id="@+id/textview_current"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:text="121"
+                android:textColor="@color/itemText"/>
             <TextView
                 android:id="@+id/textView_empty"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:text="369"
+                android:textColor="@color/itemText"/>
+
         </LinearLayout>
 
+        <View style="@style/Divider"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                />
+
+            <TextView
+                android:id="@+id/textview_add"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/add_btn"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:textColor="#FFFFFF" />
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="0.3"
+                />
+            <TextView
+                android:id="@+id/textview_delete"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:textColor="#f4502a"
+                android:background="@drawable/delete_btn"/>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                />
+
+        </LinearLayout>
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:orientation="vertical"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
         android:layout_marginTop="5dp">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/textview_add"
-                android:layout_width="70dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="110dp"
-                android:background="@drawable/button_back"
-                android:fontFamily="@font/golmokgil"
-                android:gravity="center"
-                android:text="추가"
-                android:textColor="#FFFFFF" />
-
-            <TextView
-                android:id="@+id/textview_delete"
-                android:layout_marginLeft="55dp"
-                android:layout_width="70dp"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="삭제"
-                android:textColor="#f4502a"
-                android:fontFamily="@font/golmokgil"
-                android:background="@drawable/button_back"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal">
             <TextView
                 android:layout_width="100dp"
                 android:layout_height="match_parent"
+                android:textSize="18sp"
                 android:text="추가된 강의"
-                android:gravity="center"/>
-        <TextView
+                android:gravity="center"
+                android:fontFamily="@font/notosans"
+                android:textStyle="bold"
+                android:layout_marginLeft="20dp"
+                />
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+        <Button
             android:id="@+id/textview_reload"
-            android:layout_marginLeft="240dp"
-            android:layout_width="70dp"
-            android:layout_height="match_parent"
-            android:text="새로고침"
-            android:gravity="center"
-            android:textColor="#FFFFFF"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:fontFamily="@font/golmokgil"
-            android:background="@drawable/button_back"/>
-        </LinearLayout>
+            android:background="@drawable/refresh_btns"
+            android:layout_marginRight="20dp"
+            android:layout_gravity="center"
+            />
+
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
