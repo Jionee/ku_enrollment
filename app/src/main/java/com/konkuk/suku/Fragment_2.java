@@ -202,6 +202,7 @@ public class Fragment_2 extends Fragment {
                         catch (ExecutionException|InterruptedException e) { e.printStackTrace(); }
 
                         if(classDataset.size()>0){
+                            search();
                             //어댑터 달기
                             mAdapter = new MyAdapter(classDataset,Integer.toString(gradeNumber));
                             recyclerView.setAdapter(mAdapter);

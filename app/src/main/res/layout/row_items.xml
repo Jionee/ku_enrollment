@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:layout_height="78dp"
+    android:layout_height="81dp"
     android:layout_width="match_parent"
     android:orientation="horizontal"
     android:padding="10dp"
@@ -47,33 +47,34 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_marginLeft="5dp">
+
     <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="0dp"
-    android:layout_weight="1"
+    android:layout_weight="1.4"
     android:orientation="horizontal"
-    android:layout_marginTop="7dp">
+    android:layout_marginTop="6dp">
     <TextView
         android:id="@+id/textView_name"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:text="선형대수학"
-        android:textSize="14sp"
+        android:text="20세기테크놀로지와대중문화"
+        android:textSize="13sp"
         android:textStyle="bold"
         android:gravity="bottom"
         />
-    <TextView
-        android:id="@+id/textView_professor"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="박소영,홍길동,홍길순,홍길도,홍길길,홍길원,홍길투"
-        android:textSize="11sp"
-        android:layout_marginLeft="6dp"
-        android:layout_marginBottom="1dp"
-        android:gravity="bottom"
-        />
-</LinearLayout>
 
+</LinearLayout>
+        <TextView
+            android:id="@+id/textView_professor"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="박소영,홍길동,홍길순,홍길도,홍길길,홍길원,홍길투"
+            android:textSize="10sp"
+            android:layout_marginTop="4dp"
+            android:gravity="bottom"
+            />
 
         <TextView
             android:id="@+id/textView_time"
@@ -81,7 +82,7 @@
             android:layout_height="0dp"
             android:layout_weight="1.5"
             android:text="월 02-04(온라인(녹화), 화 02-04(온라인(녹화),
-수 02-04(산학202),목 02-04(산학202), 금 02-04(산학202)"
+수 02-04(산학202)"
             android:textSize="9sp"
             android:layout_marginTop="4dp"
             />

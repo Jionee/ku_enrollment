@@ -15,7 +15,7 @@
         <TextView
             android:layout_width="80.5dp"
             android:layout_height="30dp"
-            android:background="@drawable/main_suku"
+            android:background="@drawable/main_sukulogo"
             android:layout_marginTop="25dp"
             android:layout_marginLeft="31dp"/>
 

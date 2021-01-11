@@ -5,7 +5,7 @@
         android:state_checked="false"/>
 
     <item
-        android:drawable="@drawable/switch_thumb_on"
+        android:drawable="@drawable/switch_thumb_off"
         android:state_checked="true"/>
 
 </selector>

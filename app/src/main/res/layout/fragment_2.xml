@@ -63,6 +63,8 @@
                 app:tabIndicatorColor="@color/tabSelected"
                 app:tabTextAppearance="@style/tab_text"
                 android:background="@drawable/tab_background"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
                 />
 
             <LinearLayout
@@ -93,7 +95,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="전체 강의"
-                    android:textSize="11sp"
+                    android:textSize="9sp"
                     />
 
             </LinearLayout>
