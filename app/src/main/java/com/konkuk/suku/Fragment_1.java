@@ -110,6 +110,7 @@ public class Fragment_1 extends Fragment{
         spinner = (Spinner) view.findViewById(R.id.spinner_major);
         final TextView t = view.findViewById(R.id.testView_major);
         //학과 이름 정보 받아오기
+
         try { parseMajor(); } catch (ExecutionException | InterruptedException e) { e.printStackTrace(); }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(view.getContext(),android.R.layout.simple_spinner_item,majorName); //스피너 목록 이름 생성

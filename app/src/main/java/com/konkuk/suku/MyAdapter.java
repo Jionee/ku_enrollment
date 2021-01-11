@@ -21,7 +21,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     private String gradeNumber;
     private boolean isEmpty;
     public LinearLayout itemLayout;
-
+    public LinearLayout v;
+    public ViewGroup vParent;
+    public int viewtype ;
+    public int num = 0;
     //각 text,image등을 연결
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
@@ -52,16 +55,19 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     // 각 줄 open
     @Override
     public MyAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,int viewType) {
-        LinearLayout v = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.row_items, parent, false);
+        vParent = parent;
+        viewtype = viewType;
+        v = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.row_items, parent, false);
         MyViewHolder vh = new MyViewHolder(v);
         itemLayout = v.findViewById(R.id.layoutItem);
+        System.out.println("onCreateViewHolder");
+        num++;
         return vh;
     }
 
     //데이터 세팅
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-
             holder.textView_number.setText(classDataset.get(position).getNumbers());
             holder.textView_name.setText(classDataset.get(position).getName().substring(0, classDataset.get(position).getName().indexOf("(")));
             holder.textView_professor.setText(classDataset.get(position).getProfessor());
@@ -88,21 +94,30 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             holder.textView_current.setText(Integer.toString(empt)+"/"+Integer.toString(curr));
 
             SpannableString spannableString = new SpannableString(Integer.toString(curr-empt));
-            if(curr-empt < 1){ //0이하면 빨간색으로
-                spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#595959")), 0, spannableString.length(), 0);
+            if(curr-empt > 0){ //자리있음
+                spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#4CAF50")), 0, spannableString.length(), 0);
+                //itemLayout.setSelected(false);
             }
-            else{ //남으면 초록색
-                spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#3c701c")), 0, spannableString.length(), 0);
-            }
-            if(curr-empt<=80){
-                itemLayout.setSelected(false); //자리있음(초록색)
-            }
-            else{
-                spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#595959")), 0, spannableString.length(), 0);
-                itemLayout.setSelected(true); //자리없음
+            else{ //자리없음
+                spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#e0704e")), 0, spannableString.length(), 0);
+                //itemLayout.setSelected(true);
             }
 
+            //임시--지워야함--
+            /*if(curr-empt<=85){
+                System.out.println("testTag - "+classDataset.get(position).getName()+": "+Integer.toString(curr-empt) + " - 000");
+                spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#4CAF50")), 0, spannableString.length(), 0);
+                //itemLayout.setEnabled(false); //자리있음(초록색)
+            }
+            else{
+                System.out.println("testTag - "+classDataset.get(position).getName()+": "+Integer.toString(curr-empt)+ " - 111");
+                spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#e0704e")), 0, spannableString.length(), 0);
+                //itemLayout.setEnabled(true); //자리없음
+            }*/
+            System.out.println("testTag - "+itemLayout.isEnabled());
             holder.textView_empty.setText(spannableString);
+
+
     }
 
 

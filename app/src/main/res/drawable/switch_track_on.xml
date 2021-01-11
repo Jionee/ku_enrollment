@@ -8,8 +8,8 @@
         android:width="75dp"
         android:height="25dp" />
     <solid
-        android:color="#cdf4da" />
+        android:color="@color/tabSelected" />
     <stroke
         android:width="2dp"
-        android:color="#cdf4da" />
+        android:color="@color/tabSelected" />
 </shape>

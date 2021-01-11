@@ -48,7 +48,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="35dp"
             android:orientation="horizontal">
 
             <com.google.android.material.tabs.TabLayout
@@ -60,7 +60,7 @@
                 app:tabMode="fixed"
                 app:tabTextColor="#bbbbbb"
                 app:tabSelectedTextColor="@color/tabTextSelected"
-                app:tabIndicatorColor="#00000000"
+                app:tabIndicatorColor="@color/tabSelected"
                 app:tabTextAppearance="@style/tab_text"
                 android:background="@drawable/tab_background"
                 />

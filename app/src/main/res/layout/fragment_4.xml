@@ -32,7 +32,7 @@
             android:id="@+id/editText"
             android:layout_width="0dp"
             android:layout_weight="4"
-            android:layout_height="34dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:maxLength="4"
             android:ems="8"
@@ -73,7 +73,7 @@
     <!--전체레이아웃-->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="200dp"
         android:orientation="vertical"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
@@ -90,7 +90,7 @@
                 android:layout_height="50dp"
                 android:layout_weight="1"
                 android:orientation="vertical"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginLeft="5dp">
                 <TextView
                     android:id="@+id/textview_grade"
@@ -100,16 +100,15 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:textStyle="bold"
-                    android:textColor="#ffffff"
-                    android:text=" 1학년 "
-                    android:background="@drawable/search_text_back"/>
+                    android:textColor="@color/tabSelected"
+                   />
                 <TextView
                     android:id="@+id/textView_number"
                     android:layout_width="match_parent"
                     android:layout_height="22dp"
                     android:gravity="center"
                     android:textSize="15sp"
-                    android:text="1515"/>
+                    />
             </LinearLayout>
 
             <LinearLayout
@@ -127,19 +126,7 @@
                     android:textColor="@color/itemText"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="건학정신과 대학생활(김시월)"
-                    android:layout_marginTop="20dp"/>
-
-                <TextView
-                    android:id="@+id/textview_pf_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:textSize="13sp"
-                    android:text="홍길동"
-                    android:textColor="@color/itemText"
-                    />
+                    android:layout_marginTop="10dp"/>
 
                     <TextView
                         android:id="@+id/textview_time"
@@ -148,9 +135,9 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:textSize="10sp"
-                        android:text="월 07-09(온라인(녹화)), 수 07-09(온라인(녹화))"
                         android:textColor="@color/itemText"
                         android:layout_marginBottom="15dp"
+                        android:layout_marginRight="5dp"
                         />
 
 
@@ -178,7 +165,6 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:textSize="13sp"
-                android:text="수강바구니"
                 android:textColor="@color/itemText"
                 />
             <TextView
@@ -188,7 +174,6 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:textSize="13sp"
-                android:text="전체인원"
                 android:textColor="@color/itemText"
                 />
             <TextView
@@ -198,7 +183,6 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:textSize="13sp"
-                android:text="현재 신청 인원"
                 android:textColor="@color/itemText"
                 />
             <TextView
@@ -208,7 +192,6 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:textSize="13sp"
-                android:text="남은인원"
                 android:textColor="@color/itemText"
                 />
         </LinearLayout>
@@ -216,14 +199,14 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.5"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginBottom="10dp">
             <TextView
                 android:id="@+id/textview_basket"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="1232"
                 android:textColor="@color/itemText"/>
             <TextView
                 android:id="@+id/textview_entire"
@@ -231,7 +214,6 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="500"
                 android:textColor="@color/itemText"/>
             <TextView
                 android:id="@+id/textview_current"
@@ -239,7 +221,6 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="121"
                 android:textColor="@color/itemText"/>
             <TextView
                 android:id="@+id/textView_empty"
@@ -248,7 +229,6 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:textStyle="bold"
-                android:text="369"
                 android:textColor="@color/itemText"/>
 
         </LinearLayout>
@@ -304,7 +284,7 @@
         android:layout_marginTop="5dp">
 
             <TextView
-                android:layout_width="100dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:textSize="18sp"
                 android:text="추가된 강의"
@@ -317,15 +297,16 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_weight="1"/>
-        <Button
+
+        <TextView
             android:id="@+id/textview_reload"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:fontFamily="@font/golmokgil"
-            android:background="@drawable/refresh_btns"
-            android:layout_marginRight="20dp"
             android:layout_gravity="center"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/refresh_btns"
             />
+
 
     </LinearLayout>
 

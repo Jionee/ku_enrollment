@@ -191,7 +191,7 @@ public class Fragment_4 extends Fragment {
         });
 
         //새로고침버튼
-        final Button textview_reload = view.findViewById(R.id.textview_reload);
+        final TextView textview_reload = view.findViewById(R.id.textview_reload);
         textview_reload.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -293,12 +293,16 @@ public class Fragment_4 extends Fragment {
         textview_4.setText("남은 인원");
 
         SpannableString spannableString = new SpannableString(Integer.toString(curr-empt));
+        SpannableString spannableString2 = new SpannableString(classes.getName().substring(0,classes.getName().indexOf("("))+"("+classes.getProfessor()+")");
         if(curr-empt < 1){ //0이하면 빨간색으로
             spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#e0704e")), 0, spannableString.length(), 0);
+            spannableString2.setSpan(new ForegroundColorSpan(Color.parseColor("#e0704e")), 0, spannableString2.length(), 0);
         }
         else{ //남으면 초록색
             spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#4caf50")), 0, spannableString.length(), 0);
+            spannableString2.setSpan(new ForegroundColorSpan(Color.parseColor("#4caf50")), 0, spannableString2.length(), 0);
         }
+        textview_name.setText(spannableString2);
         textView_empty.setText(spannableString); //남은인원
     }
 

@@ -21,24 +21,25 @@
         <TextView
             android:id="@+id/textView_empty"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:text="남은 자리 수"
+            android:layout_height="27dp"
+            android:text="24"
             android:textStyle="bold"
             android:gravity="center"
             android:paddingBottom="5dp"
-            android:textSize="16sp"
-            android:bufferType="spannable"/>
+            android:textSize="18sp"
+            android:bufferType="spannable"
+            android:layout_marginTop="10dp"/>
         <TextView
             android:id="@+id/textView_current"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.7"
-            android:text="현재자리/전체"
-            android:textSize="11sp"
-            android:gravity="center"/>
+            android:layout_height="15dp"
+            android:text="26/50"
+            android:textSize="12sp"
+            android:gravity="center"
+            android:layout_marginBottom="15dp"/>
 
     </LinearLayout>
+
 
 
 
@@ -47,32 +48,44 @@
         android:layout_weight="1"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_marginLeft="3dp">
-            <TextView
-                android:id="@+id/textView_name"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="과목이름"
-                android:textSize="13sp"
-                android:textStyle="bold"
-                />
-
-        <TextView
-            android:id="@+id/textView_professor"
+        android:layout_marginLeft="5dp">
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:text="교수님"
-            android:textSize="11sp"/>
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
+            <TextView
+                android:id="@+id/textView_name"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="선형대수학"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:gravity="bottom"
+                />
+            <TextView
+                android:id="@+id/textView_professor"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="박소영"
+                android:textSize="11sp"
+                android:layout_marginLeft="7dp"
+                android:layout_marginBottom="1dp"
+                android:gravity="bottom"
+                />
+        </LinearLayout>
+
+
         <TextView
             android:id="@+id/textView_time"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="2"
-            android:text="시간"
-            android:paddingTop="3.5dp"
+            android:layout_weight="1.5"
+            android:text="월 02-04(온라인(녹화), 화 02-04(온라인(녹화),
+수 02-04(산학202),목 02-04(산학202), 금 02-04(산학202)"
             android:textSize="9sp"
+            android:layout_marginTop="7dp"
             />
 
     </LinearLayout>
@@ -87,10 +100,12 @@
         android:layout_height="22dp"
         android:text="1학년"
         android:gravity="center"
-        android:background="@drawable/search_text_back"
         android:layout_marginTop="10dp"
-        android:textColor="#ffffff"
-        android:layout_gravity="center"/>
+        android:textColor="@color/tabSelected"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        />
 
     <TextView
         android:id="@+id/textView_number"
@@ -100,8 +115,8 @@
         android:paddingLeft="3dp"
         android:text="과목번호"
         android:gravity="center"
-        android:layout_marginTop="2dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="15dp"
         android:layout_gravity="center"/>
 </LinearLayout>
 

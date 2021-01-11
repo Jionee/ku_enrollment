@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_selected="false">
+    <item android:state_enabled="false">
         <shape>
             <solid android:color="@color/itemback_enough"/>
             <stroke android:color="@color/colorGray"
@@ -8,7 +8,7 @@
             <corners android:radius="10dp" />
         </shape>
     </item>
-    <item android:state_selected="true">
+    <item android:state_enabled="true">
         <shape>
             <solid android:color="@color/itemback_not_enough"/>
             <stroke android:color="@color/colorGray"

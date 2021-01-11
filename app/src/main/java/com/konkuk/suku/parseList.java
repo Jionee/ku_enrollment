@@ -3,6 +3,7 @@ package com.konkuk.suku;
 import android.os.AsyncTask;
 
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
@@ -27,7 +28,6 @@ public class parseList extends AsyncTask <String,Void, ArrayList<ArrayList<Strin
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         Element majorElements = document.get(2); //학과 리스트
         Element basicCultureElements = document.get(4);//기교 리스트
         majorName = new ArrayList<String>();

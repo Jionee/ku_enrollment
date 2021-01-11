@@ -81,18 +81,15 @@ public class addAdapter extends RecyclerView.Adapter<addAdapter.MyViewHolder> {
         holder.textView_current.setText(Integer.toString(empt)+"/"+Integer.toString(curr));
 
         SpannableString spannableString = new SpannableString(Integer.toString(curr-empt));
-        if(curr-empt < 1){ //0이하면 빨간색으로
-            spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#d41611")), 0, spannableString.length(), 0);
+        if(curr-empt > 0){
+            System.out.println("testTag : 자리잇음");
+            spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#4CAF50")), 0, spannableString.length(), 0);
+            //itemLayout.setEnabled(false); //자리있음(초록색)
         }
         else{ //남으면 초록색
-            spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#3c701c")), 0, spannableString.length(), 0);
-        }
-        if(curr-empt<=80){
-            itemLayout.setSelected(false); //자리있음(초록색)
-        }
-        else{
-            spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#595959")), 0, spannableString.length(), 0);
-            itemLayout.setSelected(true); //자리없음
+            System.out.println("testTag : 자리없음");
+            spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#e0704e")), 0, spannableString.length(), 0);
+            //itemLayout.setEnabled(true); //자리없음
         }
         holder.textView_empty.setText(spannableString);
     }

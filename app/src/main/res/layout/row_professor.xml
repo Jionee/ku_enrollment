@@ -29,22 +29,23 @@
                 android:id="@+id/textview_email"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_weight="1.3"
                 android:text="syhan@cclab.konkuk.ac.kr"
                 android:fontFamily="@font/notosans"
-                android:textSize="12sp"
-                android:gravity="center"
-                android:layout_marginTop="17dp"/>
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                android:gravity="center"/>
             <TextView
                 android:id="@+id/textview_room"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:text="공학관 C동 384호 / 신공학관 1217호"
-                android:textSize="10sp"
+                android:textSize="12sp"
                 android:fontFamily="@font/notosans"
-                android:gravity="center"
-                android:layout_marginBottom="20dp"/>
+                android:layout_marginBottom="15dp"
+                android:gravity="center"/>
         </LinearLayout>
 
         <TextView
@@ -52,8 +53,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.9"
-            android:text="02-450-3537"
-            android:textSize="11sp"
+            android:text="020-4500-3537"
+            android:textSize="14sp"
             android:gravity="center"
             android:fontFamily="@font/notosans"/>
 

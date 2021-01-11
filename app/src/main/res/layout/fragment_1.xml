@@ -5,139 +5,127 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.konkuk.suku.Fragment_1">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:orientation="horizontal">
-
-        <androidx.appcompat.widget.AppCompatSpinner
-            android:id="@+id/spinner_major"
-            android:layout_width="0dp"
-            android:layout_height="34dp"
-            android:layout_weight="1"
-            android:layout_gravity="center"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="3dp"
-            android:layout_marginBottom="3dp"
-            android:entries="@array/학과"
-            android:background="@drawable/spinner_background"
-            android:spinnerMode="dropdown"
-            />
-
-        <TextView
-            android:layout_marginTop="3dp"
-            android:layout_marginBottom="3dp"
-            android:layout_marginRight="10dp"
-            android:id="@+id/textView_search"
-            android:background="@drawable/search_btn"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:textColor="#FFFFFF"
-            android:fontFamily="@font/golmokgil"
-            android:textSize="16sp"
-            android:layout_gravity="center"
-            />
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:orientation="horizontal">
-
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/layout_tab"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            app:tabGravity="center"
-            app:tabMode="fixed"
-            app:tabTextColor="#bbbbbb"
-            app:tabSelectedTextColor="@color/tabTextSelected"
-            app:tabIndicatorColor="#00000000"
-            app:tabTextAppearance="@style/tab_text"
-            android:background="@drawable/tab_background"
-            />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.2"
-            android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:orientation="horizontal">
 
-
-            <com.kyleduo.switchbutton.SwitchButton
-                android:id="@+id/sb_use_listener"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1.8"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textView_switch"
-                android:gravity="center"
-                app:kswThumbDrawable="@drawable/switch_thumb_selector"
-                app:kswBackDrawable="@drawable/switch_track_selector"
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/spinner_major"
+                android:layout_width="0dp"
+                android:layout_height="34dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
+                android:entries="@array/학과"
+                android:background="@drawable/spinner_background"
+                android:spinnerMode="dropdown"
                 />
 
             <TextView
-                android:id="@+id/textView_switch"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="전체 강의"
-                android:textSize="11sp"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
+                android:layout_marginRight="10dp"
+                android:id="@+id/textView_search"
+                android:background="@drawable/search_btn"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:textColor="#FFFFFF"
+                android:fontFamily="@font/golmokgil"
+                android:textSize="16sp"
+                android:layout_gravity="center"
                 />
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:orientation="horizontal">
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/layout_tab"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:tabGravity="center"
+                app:tabMode="fixed"
+                app:tabTextColor="#bbbbbb"
+                app:tabSelectedTextColor="@color/tabTextSelected"
+                app:tabIndicatorColor="@color/tabSelected"
+                app:tabTextAppearance="@style/tab_text"
+                android:background="@drawable/tab_background"
+                />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.2"
+                android:orientation="vertical">
+
+
+                <com.kyleduo.switchbutton.SwitchButton
+                    android:id="@+id/sb_use_listener"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1.8"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textView_switch"
+                    android:gravity="center"
+                    app:kswThumbDrawable="@drawable/switch_thumb_selector"
+                    app:kswBackDrawable="@drawable/switch_track_selector"
+                    />
+
+                <TextView
+                    android:id="@+id/textView_switch"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="전체 강의"
+                    android:textSize="11sp"
+                    />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="9">
+
+            <ImageButton
+                android:id="@+id/filter_btn"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/filter_img_customed"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:background="#00000000"
+                android:visibility="gone"
+                />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/my_recycler_view"
+                android:scrollbars="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="3dp"/>
+
+        </RelativeLayout>
 
     </LinearLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="9">
-
-
-
-        <ImageButton
-            android:id="@+id/filter_btn"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/filter_img_customed"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="20dp"
-            android:background="#00000000"
-            android:visibility="gone"
-            />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/my_recycler_view"
-            android:scrollbars="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="3dp"/>
-
-    </RelativeLayout>
-
-
-
-
-
-
-
-
-
-</LinearLayout>
 </FrameLayout>
