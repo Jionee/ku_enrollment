@@ -2,14 +2,14 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">#FFFFFF</item>
+        <item name="colorPrimaryDark">#4caf50</item>
         <item name="colorAccent">#bbbbbb</item>
         <item name="windowNoTitle">true</item>
     </style>
 
     <style name="tab_text" parent="TextAppearance.Design.Tab">
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">13sp</item>
     </style>
 
     <style name="Divider">
