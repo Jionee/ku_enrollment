@@ -121,12 +121,12 @@ public class parseData extends AsyncTask <String,Void, ArrayList<classData>>{
             element3 = document3.get(0);
             tmp = element3.select("td").eq(1).text().trim(); // 현재/전체
 
-            //3 : 과목번호, 4 : 과목이름, 8 : 시간, 9 : 교수님 || 현재 신청 인원, 전체인원 || 14 : 심교영역
+            //3 : 과목번호, 4 : 과목이름, 8 : 시간, 9 : 교수님 || 현재 신청 인원, 전체인원 || 15 : 심교영역
             classes = new classData(element.select("td").eq(3).text(),element.select("td").eq(4).text(),
                     element.select("td").eq(9).text(),element.select("td").eq(8).text(),
                     element2.select("td").eq(3).text(),element2.select("td").eq(5).text(),
                     element3.select("td").eq(0).text().trim(),tmp.substring(0,tmp.indexOf("/")).trim(),tmp.substring(tmp.indexOf("/")+1).trim()
-                    ,element.select("td").eq(14).text(),Integer.parseInt(gradePlus));
+                    ,element.select("td").eq(15).text(),Integer.parseInt(gradePlus));
 
             parseData.c[classSequence]=classes;
             System.out.println((classSequence+1)+"번째 과목" +element.select("td").eq(4).text()+ "로딩중");
