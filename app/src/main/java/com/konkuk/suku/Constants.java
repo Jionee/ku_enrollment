@@ -2,7 +2,7 @@ package com.konkuk.suku;
 
 public class Constants {
     //1학기 B01011 2학기 B01012 하계계절학기 B01014 동계계절학기 B01015
-    public static final String when = "B01011";
+    public static final String when = "B01012";
     public static final String year = "2021";
 
     public static final String tbase = "https://kupis.konkuk.ac.kr/sugang/acd/cour/time/SeoulTimetableInfo.jsp";

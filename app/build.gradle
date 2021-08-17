@@ -8,8 +8,8 @@ android {
         applicationId "com.konkuk.suku"
         minSdkVersion 16
         targetSdkVersion 30
-        versionCode 8
-        versionName "3.3"
+        versionCode 9
+        versionName "4.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

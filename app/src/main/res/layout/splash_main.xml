@@ -40,7 +40,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:src="@drawable/turtle_winter"
+        android:src="@drawable/turtle_summer"
         android:layout_marginTop="116dp"
         android:layout_marginBottom="50dp"/>
 

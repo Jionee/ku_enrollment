@@ -28,7 +28,7 @@
             android:textSize="13sp"
             android:textColor="#4caf50"
             android:lineSpacingExtra="6sp"
-            android:text="2021년도 1학기"
+            android:text="2021년도 2학기"
             android:layout_marginTop="37dp"
             android:layout_marginRight="31dp"
             android:gravity="right"
